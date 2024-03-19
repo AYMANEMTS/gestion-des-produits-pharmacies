@@ -23,7 +23,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 require_once __DIR__ .'/auth.php';
+require_once __DIR__ .'/category.php';
+require_once __DIR__ .'/pharmacy.php';
+require_once __DIR__ .'/fourniseur.php';
+require_once __DIR__ .'/produit.php';
 
 
-
-Route::post('/pharmacy/store',[PharmacyController::class,'store']);

@@ -13,13 +13,13 @@ return new class extends Migration
     {
         Schema::create('pharmaciens', function (Blueprint $table) {
             $table->id();
-            $table->string('username',100);
-            $table->string('name',100)->nullable();
-            $table->string('phone',15);
-            $table->string('address',100)->nullable();
+            $table->string('username');
+            $table->string('name')->nullable();
+            $table->string('phone');
+            $table->string('address')->nullable();
             $table->foreignIdFor(\App\Models\Pharmacy::class);
-            $table->string('CNN',20);
-            $table->string('email',100)->unique();
+            $table->string('CNN');
+            $table->string('email')->unique();
             $table->string('password');
             $table->softDeletes();
             $table->timestamps();
