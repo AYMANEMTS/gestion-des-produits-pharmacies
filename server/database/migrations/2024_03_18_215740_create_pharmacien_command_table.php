@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Pharmacien::class);
             $table->enum('status',["in progress","pending","delivered"]);
-            $table->float('total',8,2);
+            $table->float('total',8,2)->nullable();
             $table->date('date_livred_prevenu');
             $table->date('date_livred')->nullable();
             $table->softDeletes();

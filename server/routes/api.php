@@ -1,9 +1,4 @@
 <?php
-
-use App\Http\Controllers\Auth\AdminAuthController;
-use App\Http\Controllers\Auth\ClientAuthController;
-use App\Http\Controllers\Auth\PharmacienAuthController;
-use App\Http\Controllers\PharmacyController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +22,6 @@ require_once __DIR__ .'/category.php';
 require_once __DIR__ .'/pharmacy.php';
 require_once __DIR__ .'/fourniseur.php';
 require_once __DIR__ .'/produit.php';
+require_once __DIR__ .'/orders.php';
 
 

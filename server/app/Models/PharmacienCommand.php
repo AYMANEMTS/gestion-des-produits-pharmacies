@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PharmacienCommand extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'pharmacien_command_produits';
+    protected $table = 'pharmacien_command';
     protected $fillable = [
         'pharmacien_id','status','total','date_livred_prevenu','date_livred'
     ];
@@ -20,6 +20,6 @@ class PharmacienCommand extends Model
     }
     public function produits()
     {
-        return $this->belongsToMany(Produit::class);
+        return $this->belongsToMany(Produit::class ,'pharmacien_command_produits')->withPivot(['qty','total']);
     }
 }

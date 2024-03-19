@@ -9,6 +9,7 @@ use App\Http\Requests\PharmacienRequest;
 use App\Models\Client;
 use App\Models\Pharmacien;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class PharmacienAuthController extends Controller
@@ -30,7 +31,12 @@ class PharmacienAuthController extends Controller
         $data = $loginRequest->validated();
         try {
             if (auth()->guard('pharmacien')->attempt($data)){
-                dd('login success');
+                $user = Auth::user();
+                $token = $user->createToken('pharmacien-token-leo-messi')->plainTextToken;
+                return apiResponse([
+                    'status' => true,
+                    'token' => $token
+                ]);
             }else{
                 return apiResponse(['success' => false, 'message' => 'validation errors','errors'=>['email'=>['invalid credential']]], 500);
             }

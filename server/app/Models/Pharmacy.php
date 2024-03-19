@@ -11,7 +11,7 @@ class Pharmacy extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'pharmacies';
     protected $fillable = [
-      'name','address','contact'
+      'name','address','contact','percentage'
     ];
     public function pharmaciens()
     {
