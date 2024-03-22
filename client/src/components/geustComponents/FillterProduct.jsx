@@ -1,7 +1,21 @@
-import {Card, List, ListItem, Slider} from "@material-tailwind/react";
+import { List, ListItem} from "@material-tailwind/react";
 import React from "react";
+import MultiRange from "./MultiRange";
+import {useStoreContext} from "../../contexts/StoreContext";
 
 function FillterProduct() {
+    const {products} = useStoreContext()
+    let maxPrice = 0;
+    let minPrice = Number.MAX_VALUE;
+    products.forEach((product) => {
+        if (product.prix_vendre > maxPrice) {
+            maxPrice = product.prix_vendre;
+        }
+        if (product.prix_vendre < minPrice) {
+            minPrice = product.prix_vendre;
+        }
+    });
+
     return (
         <>
             <div className={"flex justify-between"}>
@@ -24,11 +38,7 @@ function FillterProduct() {
                 </List>
                 <div className={"ml-2  text-green-500"}>Prices</div>
                 <div className="w-60 ml-4 mt-3">
-                    <div className={"flex justify-between"}>
-                        <div>124.45</div>
-                        <div>124.45</div>
-                    </div>
-                    <Slider defaultValue={50} color={"green"}/>
+                    <MultiRange  min={minPrice} max={maxPrice} />
                 </div>
             </div>
 

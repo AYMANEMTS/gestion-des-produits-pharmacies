@@ -5,6 +5,11 @@ import ClientLayout from "../layouts/ClientLayout.jsx";
 import PharmacienLayout from "../layouts/PharmacienLayout.jsx";
 import GHome from "../pages/gesutPages/GHome.jsx";
 import GStore from "../pages/gesutPages/GStore";
+import GSingleProduct from "../pages/gesutPages/GSingleProduct";
+import Signup from "../components/geustComponents/Auth/Signup";
+import Login from "../components/geustComponents/Auth/Login";
+import Profile from "../pages/clientPages/Profile";
+import CartItems from "../pages/clientPages/CartItems";
 
 export const router = createBrowserRouter([
     {
@@ -17,7 +22,24 @@ export const router = createBrowserRouter([
             {
                 element: <GStore />,
                 path: "/store"
+            },
+            {
+                element: <GSingleProduct />,
+                path: "/store/:id"
+            },
+            {
+                element: <Signup />,
+                path: "/signup"
+            },
+            {
+                element: <Login />,
+                path: "/login"
+            },
+            {
+                element: <CartItems />,
+                path: "/cart/items"
             }
+
         ]
     },
     {
@@ -33,9 +55,9 @@ export const router = createBrowserRouter([
         element: <ClientLayout />,
         children: [
             {
-                element: "client home",
-                path: "/client/home"
-            },
+                element: <Profile />,
+                path: "/client/profile"
+            }
         ]
     },
     {

@@ -2,9 +2,10 @@ import FillterProduct from "../../components/geustComponents/FillterProduct";
 import {Select,Option} from "@material-tailwind/react";
 import CardProduct from "../../components/geustComponents/CardProduct";
 import {Pagination} from "../../components/geustComponents/Pagination";
+import {useStoreContext} from "../../contexts/StoreContext";
 
 function GStore() {
-    const products = [{name:'nnnn'},{name:'nnnn'},{name:'nnnn'},{name:'nnnn'},{name:'nnnn'},{name:'nnnn'},]
+    const {products} = useStoreContext()
     return (
         <div className={"flex mb-6 gap-16"}>
             <div className={"w-1/4"}>
@@ -26,8 +27,8 @@ function GStore() {
                     </div>
                 </div>
                 <div className={"grid grid-cols-3 gap-3 mt-3"}>
-                    {products.map((pd) => (
-                        <div><CardProduct /></div>
+                    {products.map((product,key) => (
+                        <div key={key}><CardProduct product={product} /></div>
                     ))}
                 </div>
                 <div className={"flex justify-end  mt-6"}>

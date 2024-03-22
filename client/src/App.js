@@ -4,6 +4,8 @@ import {QueryClient, QueryClientProvider} from "react-query";
 import UserContext from "./contexts/AuthContext.jsx";
 import {Toaster} from "react-hot-toast";
 import { ThemeProvider } from "@material-tailwind/react";
+import StoreContext from "./contexts/StoreContext";
+import ShopingCartProvider from "./contexts/ShopingCartContext";
 
 
 function App() {
@@ -11,12 +13,16 @@ function App() {
   return (
       <>
         <QueryClientProvider client={client}>
-          <UserContext>
-              <ThemeProvider>
-                  <RouterProvider router={router} />
-                  <Toaster />
-              </ThemeProvider>
-          </UserContext>
+          <ShopingCartProvider>
+              <UserContext>
+                  <StoreContext>
+                      <ThemeProvider>
+                          <RouterProvider router={router} />
+                          <Toaster />
+                      </ThemeProvider>
+                  </StoreContext>
+              </UserContext>
+          </ShopingCartProvider>
         </QueryClientProvider>
       </>
   )
