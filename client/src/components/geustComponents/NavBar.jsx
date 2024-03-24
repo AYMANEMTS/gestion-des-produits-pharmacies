@@ -17,97 +17,43 @@ import {
     Bars3Icon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {
-    Bars4Icon,
-    GlobeAmericasIcon,
-    NewspaperIcon,
-    PhoneIcon,
-    RectangleGroupIcon,
-    SquaresPlusIcon,
-    SunIcon,
-    TagIcon,
-    UserGroupIcon,
-} from "@heroicons/react/24/solid";
 import {Link} from "react-router-dom";
 import {useShopingCart} from "../../contexts/ShopingCartContext";
 import {useFavoriteContext} from "../../contexts/FavoriteContext";
 import {ClientApi} from "../../api/ClientApi";
+import {useStoreContext} from "../../contexts/StoreContext";
 
-const navListMenuItems = [
-    {
-        title: "Products",
-        description: "Find the perfect solution for your needs.",
-        icon: SquaresPlusIcon,
-    },
-    {
-        title: "About Us",
-        description: "Meet and learn about our dedication",
-        icon: UserGroupIcon,
-    },
-    {
-        title: "Blog",
-        description: "Find the perfect solution for your needs.",
-        icon: Bars4Icon,
-    },
-    {
-        title: "Services",
-        description: "Learn how we can help you achieve your goals.",
-        icon: SunIcon,
-    },
-    {
-        title: "Support",
-        description: "Reach out to us for assistance or inquiries",
-        icon: GlobeAmericasIcon,
-    },
-    {
-        title: "Contact",
-        description: "Find the perfect solution for your needs.",
-        icon: PhoneIcon,
-    },
-    {
-        title: "News",
-        description: "Read insightful articles, tips, and expert opinions.",
-        icon: NewspaperIcon,
-    },
-    {
-        title: "Products",
-        description: "Find the perfect solution for your needs.",
-        icon: RectangleGroupIcon,
-    },
-    {
-        title: "Special Offers",
-        description: "Explore limited-time deals and bundles",
-        icon: TagIcon,
-    },
-];
+
 
 function NavListMenu() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-    const renderItems = navListMenuItems.map(
-        ({ icon, title, description }, key) => (
+    const {usingCategories} = useStoreContext()
+    const renderItems = usingCategories.filter((cate) => cate.produits.length > 1).slice(0,9).map(
+        ({ image, name }, key) => (
             <React.Fragment key={key}>
                 <Link to={"/"}>
                     <MenuItem className="flex items-center gap-3 rounded-lg">
                         <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
-                            {React.createElement(icon, {
-                                strokeWidth: 2,
-                                className: "h-6 text-gray-900 w-6",
-                            })}
+                            {/*{React.createElement(SquaresPlusIcon, {*/}
+                            {/*    strokeWidth: 2,*/}
+                            {/*    className: "h-6 text-gray-900 w-6",*/}
+                            {/*})}*/}
+                            <img className={"h-6 w-6"} src={image} alt={"h"}/>
                         </div>
                         <div>
                             <Typography
                                 variant="h6"
                                 color="blue-gray"
-                                className="flex items-center text-sm font-bold"
+                                className="flex items-center text-sm font-bold capitalize"
                             >
-                                {title}
+                                {name}
                             </Typography>
                             <Typography
                                 variant="paragraph"
                                 className="text-xs !font-medium text-blue-gray-500"
                             >
-                                {description}
+                                Find the perfect solution for your needs
                             </Typography>
                         </div>
                     </MenuItem>
@@ -185,6 +131,7 @@ export function NavbarWithMegaMenu({openDrawer}) {
     const [openNav, setOpenNav] = React.useState(false);
     const {cartItems} = useShopingCart()
     const {getCountFavorites} = useFavoriteContext()
+    const {setUsingCategories} = useStoreContext()
     React.useEffect(() => {
         window.addEventListener(
             "resize",
@@ -193,7 +140,9 @@ export function NavbarWithMegaMenu({openDrawer}) {
         try {
             async function getCategories(){
                 await ClientApi.getCategories().then(({data}) => {
-                    console.log(data)
+                    if (data?.topCategories) {
+                        setUsingCategories(data.categories)
+                    }
                 }).catch((e) => console.log(e))
             }
             getCategories()
