@@ -1,4 +1,4 @@
-import {createContext, useContext, useState} from "react";
+import {createContext, useContext, useEffect, useState} from "react";
 import {axiosClient} from "../api/axios.js";
 
 export const StateUserContext = createContext({
@@ -17,8 +17,18 @@ export default function UserContext({children}) {
     const storedToken = localStorage.getItem('token');
     const initialToken = storedToken ? storedToken : null
     const [token, setToken] = useState(initialToken)
+    useEffect((key, value) => {
+        if (user){
+            localStorage.setItem('userData',JSON.stringify(user))
+        }
+    }, [user]);
     const login = async (email,password,url) => {
         return await axiosClient.post(url,{email,password})
+    }
+    const logout = () => {
+        setToken(null)
+        localStorage.removeItem('token')
+        localStorage.removeItem('userData')
     }
     return (
         <>
@@ -27,7 +37,8 @@ export default function UserContext({children}) {
                 setUser,
                 login,
                 token,
-                setToken
+                setToken,
+                logout
             }}  >
                 {children}
             </StateUserContext.Provider>

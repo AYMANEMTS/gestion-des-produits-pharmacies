@@ -9,8 +9,11 @@ import GSingleProduct from "../pages/gesutPages/GSingleProduct";
 import Signup from "../components/geustComponents/Auth/Signup";
 import Login from "../components/geustComponents/Auth/Login";
 import Profile from "../pages/clientPages/Profile";
-import CartItems from "../pages/clientPages/CartItems";
-
+import ShopingCart from "../pages/gesutPages/ShopingCart";
+import Checkout from "../pages/clientPages/Checkout";
+import Orders from "../pages/clientPages/Orders";
+import OrderDetail from "../pages/clientPages/OrderDetail";
+const token = localStorage.getItem('token')
 export const router = createBrowserRouter([
     {
         element: <GeustLayout />,
@@ -36,7 +39,7 @@ export const router = createBrowserRouter([
                 path: "/login"
             },
             {
-                element: <CartItems />,
+                element: <ShopingCart />,
                 path: "/cart/items"
             }
 
@@ -57,6 +60,18 @@ export const router = createBrowserRouter([
             {
                 element: <Profile />,
                 path: "/client/profile"
+            },
+            {
+                element: <Checkout />,
+                path: "/client/checkout"
+            },
+            {
+                element: <Orders />,
+                path: "/client/orders"
+            },
+            {
+                element: <OrderDetail />,
+                path: "/client/order/:id"
             }
         ]
     },

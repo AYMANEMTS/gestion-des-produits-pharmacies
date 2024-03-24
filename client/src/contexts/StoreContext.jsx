@@ -9,9 +9,11 @@ export default function StoreContext({ children }) {
     useEffect(() => {
         localStorage.setItem('products', JSON.stringify(products));
     }, [products]);
-
+    const calculDiscount = (promo,prix_vendre) => {
+        return (prix_vendre - ((promo / 100) * prix_vendre)).toFixed(2)
+    }
     return (
-        <StateStoreContext.Provider value={{ products, setProducts }}>
+        <StateStoreContext.Provider value={{ products, setProducts , calculDiscount }}>
             {children}
         </StateStoreContext.Provider>
     );

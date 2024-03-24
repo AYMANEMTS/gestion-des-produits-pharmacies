@@ -1,12 +1,10 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {useStoreContext} from "./StoreContext";
 
 
 const ShopingCartContext = createContext({})
 const INITIAL_CART_ITEMS = localStorage.getItem("shopping-cart")?JSON.parse(localStorage.getItem("shopping-cart")):[]
 const ShopingCartProvider = ({children}) => {
     const [cartItems, setCartItems] = useState(INITIAL_CART_ITEMS)
-    // const {products} = useStoreContext()
     useEffect(() => {
         localStorage.setItem("shopping-cart",JSON.stringify(cartItems))
     }, [cartItems]);
@@ -51,16 +49,22 @@ const ShopingCartProvider = ({children}) => {
     const getCountItemsCart = (Items) => {
         return Items.length
     }
+    const clearShoppingCart = () => setCartItems([])
 
     const getTotalPrice = (products) => {
-        return cartItems.reduce((total,cartItem) => {
-            const item = products?.find((i) => i.id === cartItem.id)
-            return total + (item?.prix_vendre || 0) * cartItem.qty
-        },0)
-    }
+        return cartItems.reduce((total, cartItem) => {
+            const item = products.find((product) => product.id === cartItem.id);
+            if (item) {
+                const itemPrice = item.promotion ? (item.prix_vendre - (item.prix_vendre * (item.promotion.pourcentage / 100))) : item.prix_vendre;
+                return total + (itemPrice * cartItem.qty);
+            }
+            return total;
+        }, 0);
+    };
+
 
     return <ShopingCartContext.Provider value={{cartItems, getItemQty , increaseCartQty , decreaseCartQty ,
-        removeItemFromCart , getCountItemsCart , getTotalPrice}}>
+        removeItemFromCart , getCountItemsCart , getTotalPrice , clearShoppingCart}}>
         {children}
     </ShopingCartContext.Provider>
 }

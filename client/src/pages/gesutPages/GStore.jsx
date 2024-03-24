@@ -8,7 +8,7 @@ function GStore() {
     const {products} = useStoreContext()
     return (
         <div className={"flex mb-6 gap-16"}>
-            <div className={"w-1/4"}>
+            <div className={"w-1/4  h-auto p-4 rounded mt-12"}>
                 <FillterProduct />
             </div>
             <div className={"w-3/4 "}>

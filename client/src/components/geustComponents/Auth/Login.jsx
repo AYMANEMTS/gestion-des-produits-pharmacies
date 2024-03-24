@@ -1,6 +1,40 @@
 import authSvg from "../../../assets/authLogo2.jpg"
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import {ClientApi} from "../../../api/ClientApi";
+import {SetApiErrors} from "../../../helpers/SetApiErrors";
+import {useUserContext} from "../../../contexts/AuthContext";
+import toast from "react-hot-toast";
+import {useEffect, useState} from "react";
 function Login() {
+    const {register,handleSubmit,formState:{errors,isSubmitting,isValid},setError} = useForm()
+    const { setUser,token} = useUserContext()
+    const [redirect, setRedirect] = useState(null)
+    const location = useLocation();
+    const redirectRoute = location.state?.redirectRoute
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (token){
+            navigate("/client/profile")
+        }
+        if (redirectRoute){
+            setRedirect(redirectRoute)
+        }
+    }, [token,redirectRoute,redirect]);
+
+
+    const handlleLogin = async (data) => {
+        await ClientApi.login(data).then((data) => {
+            if (data.data.status){
+                localStorage.setItem('token',data.data.token)
+                setUser(data.data.clientData)
+                redirect ? navigate(redirect.toString()) : navigate("/client/profile")
+                toast.success('Welcome Back')
+            }else{
+                SetApiErrors(data.data.errors,setError)
+            }
+        })
+    }
     return (
         <>
             <div className="flex h-screen mb-8">
@@ -13,23 +47,27 @@ function Login() {
                     <div className="max-w-md w-full p-6">
                         <h1 className="text-3xl font-semibold mb-6 text-center" style={{color:'#2A886E'}}>Sign In</h1>
                         <h1 className="text-sm font-semibold mb-6 text-gray-500 text-center">Welcome Back !</h1>
-
                         <form className="space-y-4">
-
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="text" id="email" name="email"
+                                <input {...register('email',{required:true})}
+                                    type="text" placeholder={"email"}
                                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"/>
+                                <small className={"text-red-500"}>{errors.email && errors.email.message}</small>
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Password</label>
-                                <input type="text" id="email" name="email"
+                                <label htmlFor="email"
+                                       className="block text-sm font-medium text-gray-700">Password</label>
+                                <input {...register('password',{required:true})}
+                                       type="password" placeholder={"password"}
                                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"/>
-                            </div>
+                                <small className={"text-red-500"}>{errors.password && errors.password.message}</small>
 
+                            </div>
                             <div>
-                                <button type="submit" style={{backgroundColor:'#2A886E'}}
-                                        className="w-full text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300">Sign
+                                <button type="submit" disabled={!isValid || isSubmitting}
+                                    style={{backgroundColor: isSubmitting || !isValid ? 'grey':'#2A886E'}}  onClick={handleSubmit(handlleLogin)}
+                                        className="w-full text-white p-2 rounded-md hover:bg-gray-800 ">Sign
                                     In
                                 </button>
                             </div>

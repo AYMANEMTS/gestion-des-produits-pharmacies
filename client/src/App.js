@@ -6,6 +6,7 @@ import {Toaster} from "react-hot-toast";
 import { ThemeProvider } from "@material-tailwind/react";
 import StoreContext from "./contexts/StoreContext";
 import ShopingCartProvider from "./contexts/ShopingCartContext";
+import FavoriteProvider from "./contexts/FavoriteContext";
 
 
 function App() {
@@ -14,14 +15,16 @@ function App() {
       <>
         <QueryClientProvider client={client}>
           <ShopingCartProvider>
-              <UserContext>
-                  <StoreContext>
-                      <ThemeProvider>
-                          <RouterProvider router={router} />
-                          <Toaster />
-                      </ThemeProvider>
-                  </StoreContext>
-              </UserContext>
+              <FavoriteProvider>
+                  <UserContext>
+                      <StoreContext>
+                          <ThemeProvider>
+                              <RouterProvider router={router} />
+                              <Toaster />
+                          </ThemeProvider>
+                      </StoreContext>
+                  </UserContext>
+              </FavoriteProvider>
           </ShopingCartProvider>
         </QueryClientProvider>
       </>

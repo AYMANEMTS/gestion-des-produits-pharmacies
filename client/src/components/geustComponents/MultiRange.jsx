@@ -35,7 +35,7 @@ function MultiRange({min,max}) {
     }, [maxVal, getPercent]);
 
     return (
-        <div className="container">
+        <div className="">
             <input
                 type="range"
                 min={min}

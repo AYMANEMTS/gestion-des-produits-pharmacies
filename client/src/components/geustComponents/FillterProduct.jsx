@@ -17,8 +17,8 @@ function FillterProduct() {
     });
 
     return (
-        <>
-            <div className={"flex justify-between"}>
+        <div className={""}>
+            <div className={"flex justify-between "}>
                 <div className={"font-bold "}>Fillter par</div>
                 <div className={"mr-8"}>
                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -37,13 +37,13 @@ function FillterProduct() {
                     <ListItem>Settings</ListItem>
                 </List>
                 <div className={"ml-2  text-green-500"}>Prices</div>
-                <div className="w-60 ml-4 mt-3">
+                <div className="w-60 ml-4 mt-3 bg-white" >
                     <MultiRange  min={minPrice} max={maxPrice} />
                 </div>
             </div>
 
 
-        </>
+        </div>
     );
 }
 
