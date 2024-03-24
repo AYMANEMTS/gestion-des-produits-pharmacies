@@ -12,7 +12,7 @@ class Produit extends Model
     protected $table = 'produits';
     protected $fillable = [
         'name','image','description','prix_achat','prix_vendre','qty','fourniseur_id','category_id',
-        'date_fab','date_exp'
+        'date_fab','date_exp','promotion_id'
     ];
     public function category()
     {
@@ -29,5 +29,9 @@ class Produit extends Model
     public function commandsPharmacien()
     {
         return $this->belongsToMany(PharmacienCommand::class);
+    }
+    public function promotion()
+    {
+        return $this->belongsTo(Promotion::class);
     }
 }

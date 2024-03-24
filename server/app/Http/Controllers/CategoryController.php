@@ -13,7 +13,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return apiResponse(['data'=>Category::all()]);
+        $categoy = new Category();
+        return apiResponse([
+            'categories'=>Category::with(['produits','produits.category','produits.promotion'])->get(),
+            'topCategories'=>$categoy->getTopCategories(9)
+        ]);
     }
 
     /**
@@ -23,6 +27,10 @@ class CategoryController extends Controller
     {
         try {
             $data = $categoryRequest->validated();
+            if ($categoryRequest->hasFile('image')){
+                $imagePath = saveImage($categoryRequest->file('image'));
+                $data['image'] = $imagePath;
+            }
             $category = Category::create($data);
             return apiResponse(['status'=>true,'message'=>'category created successfully','data'=>$category]);
         }catch (\Exception $e){
@@ -51,6 +59,11 @@ class CategoryController extends Controller
         try {
             $data = $categoryRequest->validated();
             $category = Category::findOrFail($id);
+            if ($categoryRequest->hasFile('image') && $category->image !== null){
+                $imagePath = updateImage($category->image,$categoryRequest->file('image'));
+                $data['image'] = $imagePath;
+            }
+            $category->update($data);
             return apiResponse(['status'=>true,'message'=>'category updated successfully']);
         }catch (\Exception $e){
             return apiResponse(['status'=>false,'message'=>$e->getMessage()],500);
@@ -69,5 +82,9 @@ class CategoryController extends Controller
         }catch (\Exception $e){
             return apiResponse(['success'=>false,'message'=>$e->getMessage()],500);
         }
+    }
+    public function getTopCategories()
+    {
+
     }
 }

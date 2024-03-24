@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\ClientCommand;
+use App\Models\PharmacienCommand;
+use Illuminate\Http\Request;
+
+class OrderController extends Controller
+{
+    public function updateStatus(string $id, Request $request)
+    {
+        try {
+            if ($request->has('type') && $request->has('status')) {
+                switch ($request->type) {
+                    case "client":
+                        $command = ClientCommand::findOrFail($id);
+                        break;
+                    case "pharmacien":
+                        $command = PharmacienCommand::findOrFail($id);
+                        break;
+                    default:
+                        return apiResponse(['status' => false, 'message' => 'Invalid type command']);
+                }
+                switch ($request->status) {
+                    case "pending":
+                    case "delivered":
+                    case "in progress":
+                        $command->status = $request->status;
+                        $command->save();
+                        return apiResponse(['status' => true, 'message' => 'Command status updated successfully']);
+                    default:
+                        return apiResponse(['status' => false, 'message' => 'Invalid command status']);
+                }
+            } else {
+                return apiResponse(['status' => false, 'message' => 'Type and status are required']);
+            }
+        } catch (\Exception $e) {
+            return apiResponse(['status' => false, 'message' => $e->getMessage()]);
+        }
+    }
+
+}

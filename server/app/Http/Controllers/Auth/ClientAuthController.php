@@ -30,16 +30,16 @@ class ClientAuthController extends Controller
     {
         $data = $loginRequest->validated();
         try {
-            if (auth()->guard('client')->attempt($data)){
-                $user = Auth::user();
-                $token = $user->createToken('client-token-leo-messi')->plainTextToken;
-                return apiResponse([
-                    'status' => true,
-                    'token' => $token
-                ]);
-            }else{
-                return apiResponse(['success' => false, 'message' => 'validation errors','errors'=>['email'=>['invalid credential']]], 500);
+            $client = Client::where('email', $data['email'])->first();
+            if (!$client || !Hash::check($data['password'],$client->password)){
+                return apiResponse('The provided credentials are incorrect.',401);
             }
+            return apiResponse([
+                'status' => true,
+                'token' => $client->createToken('client',['user:client'])->plainTextToken,
+                'clientData' => $client
+            ]);
+
         }catch (\Exception $e){
             return apiResponse(['success' => false, 'message' => $e->getMessage()], 500);
         }

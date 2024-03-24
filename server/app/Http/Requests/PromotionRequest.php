@@ -6,7 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class PharmacienOrderRequest extends FormRequest
+class PromotionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +24,12 @@ class PharmacienOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pharmacien_id' => 'required',
-            'total' => 'required',
-            'date_livred_prevenu' => 'required',
-            'date_livred' => 'required',
-            'productsWithQty' => 'required',
-            'paymentInfo' => 'required',
-            'shippingAddress' => 'nullable',
-            'userInformation' => 'nullable'
+            "name" => "nullable",
+            "image" => "nullable",
+            "pourcentage" => "required"
         ];
     }
+
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([

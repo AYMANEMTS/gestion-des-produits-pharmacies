@@ -11,7 +11,8 @@ class ClientCommand extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'client_command';
     protected $fillable = [
-      'client_id','status','total','date_livred_prevenu','date_livred'
+      'client_id','status','total','date_livred_prevenu','date_livred',
+        'userInformation','shippingAddress','paymentInfo'
     ];
     public function client()
     {
@@ -19,6 +20,6 @@ class ClientCommand extends Model
     }
     public function produits()
     {
-        return $this->belongsToMany(Produit::class ,'client_command_produits')->withPivot(['qty','total']);
+        return $this->belongsToMany(Produit::class ,'client_command_produits')->withPivot(['qty','total','promo']);
     }
 }

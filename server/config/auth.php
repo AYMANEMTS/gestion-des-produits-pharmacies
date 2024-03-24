@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'admin',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -36,18 +36,18 @@ return [
     */
 
     'guards' => [
-        'admin' => [
+        'web' => [
             'driver' => 'session',
-            'provider' => 'admins',
+            'provider' => 'users',
         ],
         'client' => [
-            'driver' => 'session',
-            'provider' => 'clients',
+            'driver' => 'sanctum',
+            'provider' => 'clients'
         ],
         'pharmacien' => [
-            'driver' => 'session',
-            'provider' => 'pharmaciens',
-        ],
+            'driver' => 'sanctum',
+            'provider' => 'pharmaciens'
+        ]
     ],
 
     /*
@@ -68,19 +68,23 @@ return [
     */
 
     'providers' => [
-        'admins' => [
+        'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => App\Models\User::class,
         ],
         'clients' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Client::class,
+            'model' => \App\Models\Client::class
         ],
         'pharmaciens' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Pharmacien::class,
-        ],
+            'model' => \App\Models\Pharmacien::class
+        ]
 
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
     ],
 
     /*

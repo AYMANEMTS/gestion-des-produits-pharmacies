@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignIdFor(\App\Models\Produit::class);
             $table->bigInteger('qty');
             $table->float('total',8,2);
+            $table->string('promo')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

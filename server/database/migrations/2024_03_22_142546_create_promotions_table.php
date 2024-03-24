@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('client_command_produits', function (Blueprint $table) {
+        Schema::create('promotions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\ClientCommand::class);
-            $table->foreignIdFor(\App\Models\Produit::class);
-            $table->bigInteger('qty');
-            $table->float('total',8,2);
-            $table->string('promo')->nullable();
+            $table->string('name')->nullable();
+            $table->string('image')->nullable();
+            $table->integer('pourcentage');
             $table->softDeletes();
             $table->timestamps();
         });
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('client_command_produits');
+        Schema::dropIfExists('promotions');
     }
 };

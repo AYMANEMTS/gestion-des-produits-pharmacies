@@ -11,7 +11,8 @@ class PharmacienCommand extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'pharmacien_command';
     protected $fillable = [
-        'pharmacien_id','status','total','date_livred_prevenu','date_livred'
+        'pharmacien_id','status','total','date_livred_prevenu','date_livred',
+        'userInformation','shippingAddress','paymentInfo'
     ];
 
     public function pharmacien()

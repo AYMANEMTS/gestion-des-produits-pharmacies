@@ -25,10 +25,13 @@ class ClentOrderRequest extends FormRequest
     {
         return [
             'client_id' => 'required',
-            'total' => 'required',
-            'date_livred_prevenu' => 'required',
-            'date_livred' => 'required',
-            'productsWithQty' => 'required'
+            'total' => 'nullable',
+            'date_livred_prevenu' => 'nullable',
+            'date_livred' => 'nullable',
+            'productsWithQty' => 'required',
+            'userInformation' => 'required',
+            'shippingAddress' => 'required',
+            'paymentInfo' =>'required'
         ];
     }
     public function failedValidation(Validator $validator)

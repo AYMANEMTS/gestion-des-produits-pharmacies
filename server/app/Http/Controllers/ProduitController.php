@@ -12,7 +12,8 @@ class ProduitController extends Controller
      */
     public function index()
     {
-        return apiResponse(['data' => Produit::all()]);
+        $product = Produit::with(['category','promotion'])->paginate(9);
+        return apiResponse(['status' => true,'data' => $product]);
     }
 
     /**
@@ -22,6 +23,10 @@ class ProduitController extends Controller
     {
         try {
             $data = $produitRequest->validated();
+            if ($produitRequest->hasFile('image')){
+                $imagePath = saveImage($produitRequest->file('image'));
+                $data['image'] =$imagePath;
+            }
             $product = Produit::create($data);
             return apiResponse(['status'=>true,'message'=>'produit created successfully']);
         }catch (\Exception $e){
@@ -50,6 +55,10 @@ class ProduitController extends Controller
         try {
             $data = $produitRequest->validated();
             $product = Produit::findOrFail($id);
+            if ($product->image !== null && $produitRequest->hasFile('image')){
+                $imagePath = updateImage($product->image,$produitRequest->file('image'));
+                $data["image"] = $imagePath;
+            }
             $product->update($data);
             return apiResponse(['status'=>true,'message'=>'produit updated successfully']);
         }catch (\Exception $e){

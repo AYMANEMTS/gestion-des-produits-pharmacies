@@ -30,16 +30,16 @@ class PharmacienAuthController extends Controller
     {
         $data = $loginRequest->validated();
         try {
-            if (auth()->guard('pharmacien')->attempt($data)){
-                $user = Auth::user();
-                $token = $user->createToken('pharmacien-token-leo-messi')->plainTextToken;
-                return apiResponse([
-                    'status' => true,
-                    'token' => $token
-                ]);
-            }else{
-                return apiResponse(['success' => false, 'message' => 'validation errors','errors'=>['email'=>['invalid credential']]], 500);
+            $pharmacien = Pharmacien::where('email', $data['email'])->first();
+            if (!$pharmacien || !Hash::check($data['password'],$pharmacien->password)){
+                return apiResponse('The provided credentials are incorrect.',401);
             }
+            return apiResponse([
+                'status' => true,
+                'token' => $pharmacien->createToken('pharmacien',['user:pharmacien'])->plainTextToken,
+                'pharmacienData' => $pharmacien
+            ]);
+
         }catch (\Exception $e){
             return apiResponse(['success' => false, 'message' => $e->getMessage()], 500);
         }

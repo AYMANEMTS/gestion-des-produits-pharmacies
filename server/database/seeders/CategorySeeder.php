@@ -20,7 +20,7 @@ class CategorySeeder extends Seeder
 
         for ($i = 0; $i < 20; $i++) {
             $data[] = [
-                'name' => $faker->company,
+                'name' => $faker->title,
                 'image' => $faker->imageUrl()
             ];
         }
