@@ -1,9 +1,26 @@
 import authSvg from "../../../assets/authLogo2.jpg"
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import {useForm} from "react-hook-form";
+import {ClientApi} from "../../../api/ClientApi";
+import {SetApiErrors} from "../../../helpers/SetApiErrors";
+import toast from "react-hot-toast";
+
 function Signup() {
+    const {register,handleSubmit,setError,formState:{errors}} = useForm()
+    const navigate = useNavigate()
+    const registerCallBack = async (data) => {
+        await ClientApi.register(data).then(({data}) => {
+            if (!data.success){
+                SetApiErrors(data.errors,setError)
+            }else{
+                toast.success(data.message)
+                navigate("/login")
+            }
+        })
+    }
     return (
         <>
-            <div className="flex h-screen mb-8">
+            <div className="flex h-screen my-28">
                 <div className="hidden lg:flex items-center justify-center flex-1 bg-white text-black">
                     <div className="max-w-md text-center">
                         <img src={authSvg} className={"object-fill"} style={{height:'37rem'}} alt={"logo"}/>
@@ -19,33 +36,41 @@ function Signup() {
                             <div>
                                 <label htmlFor="username"
                                        className="block text-sm font-medium text-gray-700">Username</label>
-                                <input type="text" id="username" name="username"
+                                <input {...register('username')}
+                                    type="text" id={"username"} placeholder={"username"}
                                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"/>
+                                <p className={"text-red-500 text-xs p-2"}>{errors.username && errors.username.message}</p>
                             </div>
                             <div>
                                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="text" id="email" name="email"
+                                <input {...register('email')}
+                                       type="text" placeholder={"email"} id={"email"}
                                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"/>
+                                <p className={"text-red-500 text-xs p-2"}>{errors.email && errors.email.message}</p>
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">CNN</label>
-                                <input type="text" id="email" name="email"
+                                <label htmlFor="CNN" className="block text-sm font-medium text-gray-700">CNN</label>
+                                <input {...register('CNN')}
+                                       type="text" placeholder={"CNN"} id={"CNN"}
                                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"/>
+                                <p className={"text-red-500 text-xs p-2"}>{errors.CNN && errors.CNN.message}</p>
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700">Phone</label>
-                                <input type="text" id="email" name="email"
+                                <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone</label>
+                                <input type="text" id={"phone"} {...register('phone')} placeholder={"phone "}
                                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"/>
+                                <p className={"text-red-500 text-xs p-2"}>{errors.phone && errors.phone.message}</p>
                             </div>
                             <div>
                                 <label htmlFor="password"
                                        className="block text-sm font-medium text-gray-700">Password</label>
-                                <input type="password" id="password" name="password"
+                                <input type="password" id="password" {...register('password')} placeholder={"password"}
                                        className="mt-1 p-2 w-full border rounded-md focus:border-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 transition-colors duration-300"/>
+                                <p className={"text-red-500 text-xs p-2"}>{errors.password && errors.password.message}</p>
                             </div>
                             <div>
-                                <button type="submit" style={{backgroundColor:'#2A886E'}}
-                                        className="w-full text-white p-2 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 transition-colors duration-300">Sign
+                                <button type="submit" onClick={handleSubmit(registerCallBack)}
+                                        className="w-full text-white p-2 rounded-md bg-green-500 hover:bg-green-800 ">Sign
                                     Up
                                 </button>
                             </div>

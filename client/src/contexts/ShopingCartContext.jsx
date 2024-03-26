@@ -1,12 +1,13 @@
 import {createContext, useContext, useEffect, useState} from "react";
+import secureLocalStorage from "react-secure-storage";
 
 
 const ShopingCartContext = createContext({})
-const INITIAL_CART_ITEMS = localStorage.getItem("shopping-cart")?JSON.parse(localStorage.getItem("shopping-cart")):[]
+const INITIAL_CART_ITEMS = secureLocalStorage.getItem("shopping-cart")?secureLocalStorage.getItem("shopping-cart"):[]
 const ShopingCartProvider = ({children}) => {
     const [cartItems, setCartItems] = useState(INITIAL_CART_ITEMS)
     useEffect(() => {
-        localStorage.setItem("shopping-cart",JSON.stringify(cartItems))
+        secureLocalStorage.setItem("shopping-cart",cartItems)
     }, [cartItems]);
     const getItemQty = (id) => {
         return cartItems.find((item) => item.id === id)?.qty || 0

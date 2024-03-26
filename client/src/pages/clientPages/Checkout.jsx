@@ -14,14 +14,15 @@ import toast from "react-hot-toast";
 function Checkout() {
     const {user} = useUserContext()
     const {register,handleSubmit,formState:{errors,isSubmitting,isValid}} = useForm({defaultValues:{
-            fullName: user.name || "",
-            email: user.email || "",
-            phone: user.phone || "",
-            address: user.address || ""
+            fullName: user?.name || "",
+            email: user?.email || "",
+            phone: user?.phone || "",
+            address: user?.address || ""
         },mode:"onBlur"})
     const {products} = useStoreContext()
-    const {getTotalPrice,cartItems,clearShoppingCart} = useShopingCart()
+    const {getTotalPrice,cartItems} = useShopingCart()
     const navigate = useNavigate()
+    const {setIsLoading} = useStoreContext()
     useEffect(() => {
         if (cartItems.length < 1){
             navigate("/store")
@@ -32,6 +33,7 @@ function Checkout() {
     const handleOpen = () => setOpen(!open);
 
     const handllOrder = async (data) => {
+        setIsLoading(true)
         const productsWithQty = {};
         cartItems.forEach((item) => {
             productsWithQty[item.id] = item.qty;
@@ -56,12 +58,15 @@ function Checkout() {
         }
         await ClientApi.storeOrder(custtomData).then(({data}) => {
             if (data.status){
+                setIsLoading(false)
                 handleOpen()
             }else{
+                setIsLoading(false)
                 toast.error('failed to create order ')
             }
 
         }).catch(e => console.log(e))
+        setIsLoading(false)
     }
 
     return (

@@ -4,10 +4,13 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {useStoreContext} from "../../contexts/StoreContext";
 import CardCategory from "./CardCategory";
+import { useMediaQuery } from 'react-responsive';
 
 const RelatedCategorySlider = () => {
     const CustomPrevArrow = (props) => {
         const { className, style, onClick } = props;
+        const isLGorMD = useMediaQuery({ query: '(min-width: 768px)' });
+        if (!isLGorMD) return null
         return (
             <button className={className} onClick={onClick}
                     style={{...style, display: 'block', color: 'green', fontSize: '24px'}}>
@@ -21,6 +24,8 @@ const RelatedCategorySlider = () => {
     };
     const CustomNextArrow = (props) => {
         const {className, style, onClick} = props;
+        const isLGorMD = useMediaQuery({ query: '(min-width: 768px)' });
+        if (!isLGorMD) return null
         return (
             <button className={className} onClick={onClick} style={{...style,display: 'block',color: 'green', fontSize: '24px'}}>
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -65,13 +70,15 @@ const RelatedCategorySlider = () => {
             }
         ],
         prevArrow: <CustomPrevArrow />,
-        nextArrow: <CustomNextArrow />
+        nextArrow: <CustomNextArrow />,
+        autoplay:true,
+        autoplaySpeed: 2000,
     };
     const {usingCategories} = useStoreContext()
     const bestCategories = usingCategories.filter((cat) => cat.produits.length > 1)
     return (
-        <div className="mx-auto my-12">
-            <Slider {...settings}>
+        <div className="mx-5 my-12">
+            <Slider  {...settings}>
                 {bestCategories.map((category,key) => (
                     <div key={key} className="px-2">
                         <CardCategory category={category}/>

@@ -1,18 +1,15 @@
 import React from 'react';
-import {Typography, Button, CardBody, Card, CardFooter} from "@material-tailwind/react";
+import {Typography, Button, CardBody, Card} from "@material-tailwind/react";
 import ShopingCartItems from "../../components/geustComponents/ShopingCartItems";
 import RelatedProductSlider from "../../components/geustComponents/RelatedProductSlider";
 import {useShopingCart} from "../../contexts/ShopingCartContext";
 import {useStoreContext} from "../../contexts/StoreContext";
-import {Link, useNavigate} from "react-router-dom";
-import {useUserContext} from "../../contexts/AuthContext";
+import {Link} from "react-router-dom";
 
 function ShopingCart() {
     const {cartItems,getTotalPrice} = useShopingCart()
     const {products} = useStoreContext()
-    const {token} = useUserContext()
     const relatedProducts = products.slice(0,8)
-    const navigate = useNavigate()
     return (
         <>
             {cartItems.length < 1 && (

@@ -20,7 +20,7 @@ function CardProduct({product}) {
     const {calculDiscount} = useStoreContext()
     return (
         <>
-            <Card className="w-auto shadow-2xl hover:border-2 hover:border-black">
+            <Card className="w-auto shadow-xl hover:border-2 hover:border-black">
                 <CardHeader shadow={false} floated={false} className="h-48">
                     <img
                         src={product?.image}
@@ -42,7 +42,7 @@ function CardProduct({product}) {
                         </Link>
                         <Typography color="blue-gray" className="font-medium">
                             <Chip className={""}
-                                  value={product?.category?.name ? product.category.name.slice(0, 8)+'...' : ""}
+                                  value={product?.category?.name ? product.category.name.slice(0, 11):""}
                                   size={"sm"} color={"green"}/>
                         </Typography>
                     </div>

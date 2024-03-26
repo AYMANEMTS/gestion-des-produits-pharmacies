@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button, Chip, IconButton, Typography} from "@material-tailwind/react";
 import RelatedProductSlider from "../../components/geustComponents/RelatedProductSlider";
@@ -19,7 +19,6 @@ function GSingleProduct() {
         }
     }, [products,id]);
     const product = products.filter((pd) => pd.id === parseInt(id))
-    console.log(isFavorit(product[0].id))
     return (
         <>
             <section className="relative pt-10 pb-10  bg-blueGray-50">
@@ -30,12 +29,13 @@ function GSingleProduct() {
                     </div>
                     <div className="w-full md:w-5/12 ml-auto mr-auto px-4">
                         <div className="md:pr-12">
-                            <div className={"flex justify-between"}>
+                            <div className={"flex justify-between mt-4"}>
                                 <Chip value={"Category "} color={"green"} size={"sm"} className={"w-24 pl-3 mb-3"}/>
                                 <Chip value={"-2% "} color={"orange"} className={"w-9 h-9 p-2 rounded-full"}/>
                             </div>
                             <h3 className="text-3xl font-semibold">{product[0].name}</h3>
                             <p className="mt-4 text-lg leading-relaxed text-blueGray-500">
+                                {product[0].description}
                                 {product[0].description}
                             </p>
                             <div style={{borderBottom: '2px solid #A7A7A7', width: 400}} className={"my-4"}></div>
@@ -55,7 +55,7 @@ function GSingleProduct() {
                                     </Typography>
                                 </div>
                                 <div>
-                                    <div className="flex h-10 w-48 mt-7 pl-4 ">
+                                    <div className="flex h-10 w-45 mt-7 pl-4 ">
                                         <button disabled={getItemQty(product[0].id) === 0}
                                                 onClick={() => decreaseCartQty(product[0].id)}
                                                 className={`group rounded-l-full bg-gray-300 px-6 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-200 hover:border-gray-300 ${getItemQty(product[0].id) === 0 ? '' : 'hover:bg-gray-500'}`}>
@@ -137,12 +137,15 @@ function GSingleProduct() {
                     </div>
                 </div>
             </section>
-            <div className={"flex justify-center my-5"}>
+            <div className={"flex justify-center my-5 "}>
                 <Typography variant={"h3"} color={"green"}>
                     Related product
                 </Typography>
             </div>
-            <RelatedProductSlider/>
+            <div className={"mx-4"}>
+                <RelatedProductSlider/>
+            </div>
+
         </>
     )
         ;

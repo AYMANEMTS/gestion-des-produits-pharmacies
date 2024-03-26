@@ -6,14 +6,17 @@ import PharmacienLayout from "../layouts/PharmacienLayout.jsx";
 import GHome from "../pages/gesutPages/GHome.jsx";
 import GStore from "../pages/gesutPages/GStore";
 import GSingleProduct from "../pages/gesutPages/GSingleProduct";
-import Signup from "../components/geustComponents/Auth/Signup";
-import Login from "../components/geustComponents/Auth/Login";
+import Signup from "../pages/Auth/client/Signup";
+import Login from "../pages/Auth/client/Login";
 import Profile from "../pages/clientPages/Profile";
 import ShopingCart from "../pages/gesutPages/ShopingCart";
 import Checkout from "../pages/clientPages/Checkout";
 import Orders from "../pages/clientPages/Orders";
 import OrderDetail from "../pages/clientPages/OrderDetail";
-const token = localStorage.getItem('token')
+import Contact from "../pages/gesutPages/Contact";
+import AdminLogin from "../pages/Auth/admin/AdminLogin";
+import AHome from "../pages/adminPages/AHome";
+import Products from "../pages/adminPages/Products";
 export const router = createBrowserRouter([
     {
         element: <GeustLayout />,
@@ -41,7 +44,12 @@ export const router = createBrowserRouter([
             {
                 element: <ShopingCart />,
                 path: "/cart/items"
-            }
+            },
+            {
+                element: <Contact />,
+                path: "/contact"
+            },
+
 
         ]
     },
@@ -49,9 +57,13 @@ export const router = createBrowserRouter([
         element: <AdminLayout />,
         children: [
             {
-                element: "admin home",
+                element: <AHome />,
                 path: "/admin/home"
             },
+            {
+                element: <Products />,
+                path: "/admin/products"
+            }
         ]
     },
     {
@@ -83,5 +95,10 @@ export const router = createBrowserRouter([
                 path: "/pharmacien/home"
             },
         ]
+    },
+
+    {
+        element: <AdminLogin />,
+        path: "/admin/login"
     }
 ])

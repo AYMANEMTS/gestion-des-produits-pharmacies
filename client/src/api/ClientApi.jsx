@@ -5,6 +5,9 @@ export const ClientApi = {
     login: async (data) => {
         return await axiosClient.post('/api/client/login',data).catch((e) => console.log(e))
     },
+    register: async (data) => {
+        return await axiosClient.post('/api/client/create',data).catch((e) => console.log(e))
+    },
     getProduts: async (page) => {
         return await axiosClient.get(`/api/produit?page=${page}`).catch((e) => console.log(e))
     },
@@ -19,5 +22,5 @@ export const ClientApi = {
     },
     getCategories: async () => {
         return await axiosClient.get("/api/category").catch((e) => console.log(e))
-    }
+    },
 }

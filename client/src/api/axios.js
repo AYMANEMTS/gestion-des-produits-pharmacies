@@ -1,4 +1,5 @@
 import axios from "axios";
+import secureLocalStorage from "react-secure-storage";
 
 
 export const axiosClient = axios.create({
@@ -8,7 +9,7 @@ export const axiosClient = axios.create({
     },
 })
 axiosClient.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
+    const token = secureLocalStorage.getItem('token');
     if (token) {
         config.headers.Authorization = `Bearer ${token}`;
     }

@@ -4,11 +4,14 @@ import CardProduct from "./CardProduct";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import {useStoreContext} from "../../contexts/StoreContext";
+import {useMediaQuery} from "react-responsive";
 
 const RelatedProductSlider = () => {
     const {products} = useStoreContext()
     const CustomPrevArrow = (props) => {
         const { className, style, onClick } = props;
+        const isLGorMD = useMediaQuery({ query: '(min-width: 768px)' });
+        if (!isLGorMD) return null
         return (
             <button className={className} onClick={onClick}
                     style={{...style, display: 'block', color: 'green', fontSize: '24px'}}>
@@ -22,6 +25,8 @@ const RelatedProductSlider = () => {
     };
     const CustomNextArrow = (props) => {
         const {className, style, onClick} = props;
+        const isLGorMD = useMediaQuery({ query: '(min-width: 768px)' });
+        if (!isLGorMD) return null
         return (
             <button className={className} onClick={onClick} style={{...style,display: 'block',color: 'green', fontSize: '24px'}}>
                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -66,7 +71,9 @@ const RelatedProductSlider = () => {
             }
         ],
         prevArrow: <CustomPrevArrow />,
-        nextArrow: <CustomNextArrow />
+        nextArrow: <CustomNextArrow />,
+        autoplay:true,
+        autoplaySpeed: 2000,
     };
 
     const relatedProducts = products.slice(0,8)
@@ -74,7 +81,7 @@ const RelatedProductSlider = () => {
     return (
         <div className="mx-auto my-5">
             <Slider {...settings}>
-                {products.map((product) => (
+                {relatedProducts.map((product) => (
                     <div key={product.id} className="px-2">
                         <CardProduct product={product}/>
                     </div>

@@ -28,7 +28,7 @@ function FillterProduct({fliterProductsWithCategory,resetProduct,filterWithMinPr
 
     return (
         <div className="flex flex-wrap items-center justify-between bg-white p-4 rounded mb-4">
-            <div className="flex items-center flex-wrap justify-start lg:justify-center flex-grow">
+            <div className="flex items-center flex-wrap justify-start mb-2 lg:justify-center flex-grow">
                 {/* Category Filter */}
                 <div className="mr-4">
                     <Menu>
@@ -117,7 +117,7 @@ function FillterProduct({fliterProductsWithCategory,resetProduct,filterWithMinPr
                     </Menu>
                 </div>
             </div>
-            <div className="flex items-center justify-end flex-grow m-1  lg:flex-initial">
+            <div className="flex items-center justify-end flex-grow m-2  lg:flex-initial">
                 {/* Sorting Dropdown */}
                 <div className={" mt-2 mr-2 text-green-500 font-bold"}>
                     TRIER PAR :

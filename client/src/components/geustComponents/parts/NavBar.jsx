@@ -3,25 +3,24 @@ import {
     Navbar,
     Collapse,
     Typography,
-    Button,
     IconButton,
     List,
     ListItem,
     Menu,
     MenuHandler,
     MenuList,
-    MenuItem, Card, Badge,
+    MenuItem, Badge,
 } from "@material-tailwind/react";
 import {
     ChevronDownIcon,
     Bars3Icon,
     XMarkIcon,
 } from "@heroicons/react/24/outline";
-import {Link} from "react-router-dom";
-import {useShopingCart} from "../../contexts/ShopingCartContext";
-import {useFavoriteContext} from "../../contexts/FavoriteContext";
-import {ClientApi} from "../../api/ClientApi";
-import {useStoreContext} from "../../contexts/StoreContext";
+import {Link, useNavigate} from "react-router-dom";
+import {useShopingCart} from "../../../contexts/ShopingCartContext";
+import {useFavoriteContext} from "../../../contexts/FavoriteContext";
+import {ClientApi} from "../../../api/ClientApi";
+import {useStoreContext} from "../../../contexts/StoreContext";
 
 
 
@@ -29,17 +28,17 @@ function NavListMenu() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
     const {usingCategories} = useStoreContext()
+    const navigate = useNavigate()
     const renderItems = usingCategories.filter((cate) => cate.produits.length > 1).slice(0,9).map(
-        ({ image, name }, key) => (
+        (category, key) => (
             <React.Fragment key={key}>
-                <Link to={"/"}>
-                    <MenuItem className="flex items-center gap-3 rounded-lg">
+                    <MenuItem className="flex items-center gap-3 rounded-lg" onClick={() => navigate("/store",{state:{searchWithCate:category}})}>
                         <div className="flex items-center justify-center rounded-lg !bg-blue-gray-50 p-2 ">
                             {/*{React.createElement(SquaresPlusIcon, {*/}
                             {/*    strokeWidth: 2,*/}
                             {/*    className: "h-6 text-gray-900 w-6",*/}
                             {/*})}*/}
-                            <img className={"h-6 w-6"} src={image} alt={"h"}/>
+                            <img className={"h-6 w-6"} src={category?.image} alt={"h"}/>
                         </div>
                         <div>
                             <Typography
@@ -47,7 +46,7 @@ function NavListMenu() {
                                 color="blue-gray"
                                 className="flex items-center text-sm font-bold capitalize"
                             >
-                                {name}
+                                {category?.name}
                             </Typography>
                             <Typography
                                 variant="paragraph"
@@ -57,7 +56,6 @@ function NavListMenu() {
                             </Typography>
                         </div>
                     </MenuItem>
-                </Link>
             </React.Fragment>
         ),
     );
@@ -111,16 +109,18 @@ function NavList() {
     return (
         <List className="mt-4 mb-6 p-0 lg:mt-0 lg:mb-0 lg:flex-row lg:p-1 ">
             <NavListMenu />
-            <div style={{borderLeft: '1.5px solid white',height:'30px',marginTop:'2px'}}></div>
+            <div style={{borderLeft: '1.5px solid white',height:'30px',marginTop:'2px'}}  className={"hidden sm:hidden lg:block"}></div>
             <Link to={"/"} className="text-white">
                 <ListItem className="flex items-center text-white gap-2 py-2 pr-4">Home</ListItem>
             </Link>
             <Link to={"/store"} className="text-white">
                 <ListItem className="flex items-center text-white gap-2 py-2 pr-4">Store</ListItem>
             </Link>
-            <ListItem className="flex items-center text-white gap-2 py-2 pr-4">
-                Contact Us
-            </ListItem>
+            <Link to={'/contact'}>
+                <ListItem className="flex items-center text-white gap-2 py-2 pr-4">
+                    Contact Us
+                </ListItem>
+            </Link>
         </List>
     );
 }
@@ -198,7 +198,7 @@ export function NavbarWithMegaMenu({openDrawer}) {
                     </div>
                     <IconButton
                         variant="text"
-                        color="blue-gray"
+                        color="white"
                         className="lg:hidden"
                         onClick={() => setOpenNav(!openNav)}
                     >
@@ -212,12 +212,6 @@ export function NavbarWithMegaMenu({openDrawer}) {
                 <Collapse open={openNav}>
                     <NavList/>
                     <div className="flex w-full flex-nowrap items-center gap-2 lg:hidden">
-                        <Button variant="outlined" size="sm" color="blue-gray" fullWidth>
-                            Log In
-                        </Button>
-                        <Button variant="gradient" size="sm" fullWidth>
-                            Sign In
-                        </Button>
                     </div>
                 </Collapse>
             </Navbar>

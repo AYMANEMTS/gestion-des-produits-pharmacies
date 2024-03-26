@@ -1,41 +1,37 @@
 import {createContext, useContext, useEffect, useState} from "react";
-import {axiosClient} from "../api/axios.js";
+import secureLocalStorage from "react-secure-storage";
 
 export const StateUserContext = createContext({
     user:{},
     setUser:() => {},
-    login: () => {},
     logout: () => {},
     token: null,
     setToken: () => {}
 
 })
 export default function UserContext({children}) {
-    const storedUserData = localStorage.getItem('userData');
-    const initialUser = storedUserData ? JSON.parse(storedUserData) : null
+    const storedUserData = secureLocalStorage.getItem('userData');
+    const initialUser = storedUserData ? storedUserData : null
     const [user, setUser] = useState(initialUser)
-    const storedToken = localStorage.getItem('token');
+    const storedToken = secureLocalStorage.getItem('token');
     const initialToken = storedToken ? storedToken : null
     const [token, setToken] = useState(initialToken)
     useEffect((key, value) => {
         if (user){
-            localStorage.setItem('userData',JSON.stringify(user))
+            secureLocalStorage.setItem('userData',user)
         }
     }, [user]);
-    const login = async (email,password,url) => {
-        return await axiosClient.post(url,{email,password})
-    }
+
     const logout = () => {
         setToken(null)
-        localStorage.removeItem('token')
-        localStorage.removeItem('userData')
+        secureLocalStorage.removeItem('token')
+        secureLocalStorage.removeItem('userData')
     }
     return (
         <>
             <StateUserContext.Provider value={{
                 user,
                 setUser,
-                login,
                 token,
                 setToken,
                 logout

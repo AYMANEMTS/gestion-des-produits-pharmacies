@@ -35,16 +35,24 @@ function PaymentInfo({register,errors}) {
                                 required:{
                                     value:true,
                                     message: "this field is required"
+                                },
+                                pattern: {
+                                    value: /^\d{16}$/,
+                                    message: 'Card number must be exactly 16 digits'
                                 }
                             })}
                                    className="px-4 py-3.5 bg-white text-[#333] w-full text-sm border-2 rounded-md focus:border-blue-500 outline-none"/>
                             <span className={"text-red-500"}>{errors.cardNumber && errors.cardNumber.message}</span>
                         </div>
                         <div>
-                            <input type="number" placeholder="EXP." {...register('EXP', {
+                            <input type="text" placeholder="EXP: 00/00" {...register('EXP', {
                                 required: {
                                     value: true,
                                     message: "this field is required"
+                                },
+                                pattern: {
+                                    value: /^(0[1-9]|1[0-2])\/\d{2}$/,
+                                    message: "Invalid expiration date format (MM/YY)"
                                 }
                             })}
                                    className="px-4 py-3.5 bg-white text-[#333] w-full text-sm border-2 rounded-md focus:border-blue-500 outline-none"/>
@@ -55,6 +63,10 @@ function PaymentInfo({register,errors}) {
                                 required: {
                                     value: true,
                                     message: "this field is required"
+                                },
+                                pattern: {
+                                    value: /^\d{3}$/,
+                                    message: 'Invalid CVV format'
                                 }
                             })}
                                    className="px-4 py-3.5 bg-white text-[#333] w-full text-sm border-2 rounded-md focus:border-blue-500 outline-none"/>

@@ -13,7 +13,7 @@ import {Link} from "react-router-dom";
 
 export function DefaultSpeedDial({openDrawer}) {
     return (
-        <div  style={{position:'fixed',bottom:20,right:16}}>
+        <div style={{position:'fixed',bottom:20,right:25}}>
             <div className="absolute bottom-0 right-0">
                 <SpeedDial>
                     <SpeedDialHandler>

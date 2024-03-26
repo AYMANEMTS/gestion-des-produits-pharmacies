@@ -2,7 +2,10 @@ import React, {useEffect, useState} from 'react';
 import ClientNav from "../../components/clientComponents/ClientNav";
 import {useNavigate, useParams} from "react-router-dom";
 import {ClientApi} from "../../api/ClientApi";
-import RelatedProductSlider from "../../components/geustComponents/RelatedProductSlider";
+import OrderCartItems from "../../components/clientComponents/Oreders/OrderCartItems";
+import OrderSumray from "../../components/clientComponents/Oreders/OrderSumray";
+import OrderCustomerInformation from "../../components/clientComponents/Oreders/OrderCustomerInformation";
+import {DateFormat} from "../../helpers/DateFormat";
 
 function OrderDetail() {
     const {id} = useParams()
@@ -25,153 +28,37 @@ function OrderDetail() {
             navigate("/client/orders")
         }
     }, []);
-    console.log(orderData)
-    const shippingAddress = JSON.parse(orderData.shippingAddress)
-    const paymentInfo = JSON.parse(orderData.paymentInfo)
-    const userInformation = JSON.parse(orderData.userInformation)
+    const shippingAddress = orderData.shippingAddress && JSON.parse(orderData.shippingAddress)
+    const paymentInfo = orderData.shippingAddress && JSON.parse(orderData.paymentInfo)
+    const userInformation = orderData.paymentInfo && JSON.parse(orderData.userInformation)
+    const customerInfo = {shippingAddress,paymentInfo,userInformation}
     return (
         <>
-            <ClientNav />
-            <div className={""}>
-                <div className="mx-auto my-7">
-                    <div className={"flex justify-around"}>
-                        <div className="">
-                            <dl className="mt-12 text-sm font-medium">
-                                <dt className="text-gray-900">Tracking number</dt>
-                                <dd className="mt-2 text-indigo-600">51547878755545848512</dd>
-                            </dl>
-                        </div>
-                        <div className="">
-                            <dl className="mt-12 text-sm font-medium">
-                                <dt className="text-gray-900">Order Status</dt>
-                                <dd className="mt-2 text-indigo-600">51547878755545848512</dd>
-                            </dl>
-                        </div>
-                        <div className="">
-                            <dl className="mt-12 text-sm font-medium">
-                                <dt className="text-gray-900">Date</dt>
-                                <dd className="mt-2 text-indigo-600">51547878755545848512</dd>
-                            </dl>
-                        </div>
-                        <div className="">
-                            <dl className="mt-12 text-sm font-medium">
-                                <dt className="text-gray-900">Date Livred</dt>
-                                <dd className="mt-2 text-indigo-600">51547878755545848512</dd>
-                            </dl>
-                        </div>
-                    </div>
-                    <section aria-labelledby="order-heading" className="mt-10 border-t border-gray-200 flex">
-                        <div className={" "}>
-                            {orderData?.produits?.map((product) => (
-                                <div key={product.id}
-                                     className="flex space-x-3 border-b border-gray-200 p-4 bg-white mb-3 rounded">
-                                    <img
-                                        src={product.image}
-                                        alt={"jdj"}
-                                        className="h-full w-20 flex-none rounded-lg bg-gray-100 object-cover object-center sm:h-40 sm:w-40"
-                                    />
-                                    <div className={"pb-4"}>
-                                        <div className="flex flex-auto flex-col ">
-                                            <div>
-                                                <h4 className="font-medium text-gray-900 pt-5 capitalize">
-                                                    <a href={""}>{product.name}</a>
-                                                </h4>
-                                                <p className="mt-2 text-sm text-gray-600">{product.description}</p>
-                                            </div>
-                                            <div className="mt-6 flex flex-1 items-end">
-                                                <dl className="flex space-x-4 divide-x divide-gray-200 text-sm sm:space-x-6">
-                                                    <div className="flex">
-                                                        <dt className="font-medium text-gray-900">Quantity</dt>
-                                                        <dd className="ml-2 text-gray-700">{product?.pivot?.qty}</dd>
-                                                    </div>
-                                                    <div className="flex pl-4 sm:pl-6 ">
-                                                        <dt className="font-medium text-gray-900">Sub Price</dt>
-                                                        <dd className="ml-2 text-gray-700">{product.prix_vendre} DH</dd>
-                                                    </div>
-                                                    <div className="flex pl-4 sm:pl-6 ">
-                                                        <dt className="font-medium text-gray-900">Total Price</dt>
-                                                        <dd className="ml-2 text-gray-700">{product.pivot.total} DH</dd>
-                                                    </div>
-                                                </dl>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+            <ClientNav/>
+            <div className="py-14 px-4 md:px-6 2xl:px-20 2xl:container 2xl:mx-auto">
+
+                <div className="flex justify-start item-start space-y-2 flex-col">
+                    <h1 className="text-3xl dark:text-white lg:text-4xl font-semibold leading-7 lg:leading-9 text-gray-800">Order
+                        #13432</h1>
+                    <p className="text-base dark:text-gray-300 font-medium leading-6 text-gray-600">
+                        {DateFormat(orderData?.created_at)}
+                    </p>
+                </div>
+                <div
+                    className="mt-10 flex flex-col xl:flex-row jusitfy-center items-stretch w-full xl:space-x-8 space-y-4 md:space-y-6 xl:space-y-0">
+                    <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
+                        <div className="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
+                            <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">Customer’s
+                                Cart</p>
+                            {orderData?.produits?.map((product,key) => (
+                                <div key={key}><OrderCartItems product={product}/></div>
                             ))}
+
                         </div>
-                        <div className={"w-5/12 "}>
-                            <div className="ml-3 sm:pl-6 bg-white rounded pb-4 pr-4">
-                                <h3 className="sr-only">Your information</h3>
-
-                                <h4 className="sr-only">Addresses</h4>
-                                <dl className="grid grid-cols-2 gap-x-6 py-10 text-sm">
-                                    <div>
-                                        <dt className="font-medium text-gray-900">Shipping address</dt>
-                                        <dd className="mt-2 text-gray-700">
-                                            <address className="not-italic">
-                                                <span className="block">Address: {shippingAddress.address}</span>
-                                                <span className="block">ZIP: {shippingAddress.ZIP}</span>
-                                            </address>
-                                        </dd>
-                                    </div>
-                                    <div>
-                                        <dt className="font-medium text-gray-900">Billing address</dt>
-                                        <dd className="mt-2 text-gray-700">
-                                            <address className="not-italic">
-                                                <span className="block">Kristin Watson</span>
-                                                <span className="block">7363 Cynthia Pass</span>
-                                                <span className="block">Toronto, ON N3Y 4H8</span>
-                                            </address>
-                                        </dd>
-                                    </div>
-                                </dl>
-
-                                <h4 className="sr-only">Payment</h4>
-                                <dl className="grid grid-cols-2 gap-x-6 border-t border-gray-200 py-10 text-sm">
-                                    <div>
-                                        <dt className="font-medium text-gray-900">Payment method</dt>
-                                        <dd className="mt-2 text-gray-700">
-                                            <p>Apple Pay</p>
-                                            <p>Mastercard</p>
-                                            <p>
-                                                <span aria-hidden="true">••••</span>
-                                                <span className="sr-only">Ending in </span>1545
-                                            </p>
-                                        </dd>
-                                    </div>
-                                    <div>
-                                        <dt className="font-medium text-gray-900">Shipping method</dt>
-                                        <dd className="mt-2 text-gray-700">
-                                            <p>DHL</p>
-                                            <p>Takes up to 3 working days</p>
-                                        </dd>
-                                    </div>
-                                </dl>
-
-                                <h3 className="sr-only">Summary</h3>
-
-                                <dl className="space-y-6 border-t border-gray-200 pt-10 text-sm">
-                                    <div className="flex justify-between">
-                                        <dt className="font-medium text-gray-900">Subtotal</dt>
-                                        <dd className="text-gray-700">{orderData.total} DH</dd>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <dt className="font-medium text-gray-900">Shipping</dt>
-                                        <dd className="text-gray-700">0.00 DH</dd>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <dt className="font-medium text-gray-900">Total</dt>
-                                        <dd className="text-gray-900">{orderData.total} DH</dd>
-                                    </div>
-                                </dl>
-                            </div>
-                        </div>
-                    </section>
+                        <OrderSumray orderData={orderData}/>
+                    </div>
+                    <OrderCustomerInformation customerInfo={customerInfo}/>
                 </div>
-                <div className={"mb-12"}>
-                    <RelatedProductSlider />
-                </div>
-
             </div>
         </>
     );

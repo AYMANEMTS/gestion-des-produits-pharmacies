@@ -30,7 +30,7 @@ export function Pagination({activePage,totalPages,onPageChange}) {
         </IconButton>
     ));
     return (
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-1">
             <Button
                 variant="text"
                 className="flex items-center gap-2 rounded-full"

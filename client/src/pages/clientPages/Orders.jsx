@@ -1,22 +1,24 @@
-import React, {useState} from 'react';
+import React, { useState} from 'react';
 import ClientNav from "../../components/clientComponents/ClientNav";
 import {Card, Chip, Typography} from "@material-tailwind/react";
 import {useQuery} from "react-query";
 import {ClientApi} from "../../api/ClientApi";
 import {DateFormat} from "../../helpers/DateFormat";
 import {Link} from "react-router-dom";
+import {useStoreContext} from "../../contexts/StoreContext";
 
 function Orders() {
     const TABLE_HEAD = ["Order N°","Date", "Total", "Status", ""];
     const [orderData, setOrderData] = useState([])
-
+    const {setIsLoading} = useStoreContext()
     const {data:x} = useQuery('orders',ClientApi.getClientorders,{
         retry: 1,refetchOnMount:true,refetchInterval:false,
         onSuccess: (({data}) => {
             if (data?.status){
                 setOrderData(data?.data)
             }
-        })
+            setIsLoading(false)
+        }),onError:(() => setIsLoading(false))
     })
     return (
         <>
@@ -43,7 +45,7 @@ function Orders() {
                         </tr>
                         </thead>
                         <tbody>
-                        {orderData.map((item, index) => {
+                        {orderData?.map((item, index) => {
                             const isLast = index === orderData.length - 1;
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
                             return (

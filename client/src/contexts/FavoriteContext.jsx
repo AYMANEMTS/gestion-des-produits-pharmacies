@@ -1,13 +1,14 @@
 import {createContext, useContext, useEffect, useState} from "react";
+import secureLocalStorage from "react-secure-storage";
 
 
 const FavoriteContext = createContext({})
-const INITIAL_FAVORITE_ITEMS = localStorage.getItem("favorites")?JSON.parse(localStorage.getItem("favorites")):[]
+const INITIAL_FAVORITE_ITEMS = secureLocalStorage.getItem("favorites")?secureLocalStorage.getItem("favorites"):[]
 
 const FavoriteProvider = ({children}) => {
     const [favoriteItems, setFavoriteItems] = useState(INITIAL_FAVORITE_ITEMS)
     useEffect(() => {
-        localStorage.setItem("favorites",JSON.stringify(favoriteItems))
+        secureLocalStorage.setItem("favorites",favoriteItems)
     }, [favoriteItems]);
     const toogleFavorite = (product) => {
         setFavoriteItems((prevFavorites) => {
