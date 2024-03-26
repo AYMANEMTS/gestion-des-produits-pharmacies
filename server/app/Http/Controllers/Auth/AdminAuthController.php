@@ -28,10 +28,15 @@ class AdminAuthController extends Controller
     {
         $data = $loginRequest->validated();
         try {
-            if (auth()->guard('admin')->attempt($data)){
-                dd('login success');
+            $admin = Admin::where('email',$data['email'])->first();
+            if (!$admin || !Hash::check($data['password'], $admin->password)){
+                return apiResponse(['success' => false, 'message' => 'validation errors','errors'=>['email'=>['The provided credentials are incorrect']]]);
             }else{
-                return apiResponse(['success' => false, 'message' => 'validation errors','errors'=>['email'=>['invalid credential']]], 500);
+                return apiResponse([
+                    'success' => true,
+                    'token' => $admin->createToken('admin',['user:admin'])->plainTextToken,
+                    'adminData' => $admin
+                ]);
             }
         }catch (\Exception $e){
             return apiResponse(['success' => false, 'message' => $e->getMessage()], 500);

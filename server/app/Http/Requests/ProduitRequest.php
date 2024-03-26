@@ -32,8 +32,8 @@ class ProduitRequest extends FormRequest
             'qty' => 'required|numeric',
             'fourniseur_id' => 'required|numeric',
             'category_id' => 'required|numeric',
-            'date_fab' => 'required|date_format:Y/m/d',
-            'date_exp' => 'required|date_format:Y/m/d'
+            'date_fab' => 'required',
+            'date_exp' => 'required'
         ];
     }
     public function failedValidation(Validator $validator)

@@ -47,6 +47,10 @@ return [
         'pharmacien' => [
             'driver' => 'sanctum',
             'provider' => 'pharmaciens'
+        ],
+        'admin' => [
+            'driver' => 'sanctum',
+            'provider' => 'admins'
         ]
     ],
 
@@ -79,6 +83,10 @@ return [
         'pharmaciens' => [
             'driver' => 'eloquent',
             'model' => \App\Models\Pharmacien::class
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => \App\Models\Admin::class
         ]
 
         // 'users' => [

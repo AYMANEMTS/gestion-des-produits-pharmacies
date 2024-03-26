@@ -32,7 +32,7 @@ class PharmacienAuthController extends Controller
         try {
             $pharmacien = Pharmacien::where('email', $data['email'])->first();
             if (!$pharmacien || !Hash::check($data['password'],$pharmacien->password)){
-                return apiResponse('The provided credentials are incorrect.',401);
+                return apiResponse(['success' => false, 'message' => 'validation errors','errors'=>['email'=>['The provided credentials are incorrect']]]);
             }
             return apiResponse([
                 'status' => true,

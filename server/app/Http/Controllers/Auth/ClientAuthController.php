@@ -20,7 +20,7 @@ class ClientAuthController extends Controller
         try {
             $data['password'] = Hash::make($data['password']);
             $client = Client::create($data);
-            return apiResponse(['success'=>'true','data'=>$client]);
+            return apiResponse(['success'=>'true','message' => 'Registration successful! Please log in to your account.']);
         }catch (\Exception $e){
             return apiResponse(['success' => false, 'message' => $e->getMessage()], 500);
 
@@ -32,14 +32,13 @@ class ClientAuthController extends Controller
         try {
             $client = Client::where('email', $data['email'])->first();
             if (!$client || !Hash::check($data['password'],$client->password)){
-                return apiResponse('The provided credentials are incorrect.',401);
+                return apiResponse(['success' => false, 'message' => 'validation errors','errors'=>['email'=>['The provided credentials are incorrect']]]);
             }
             return apiResponse([
                 'status' => true,
                 'token' => $client->createToken('client',['user:client'])->plainTextToken,
                 'clientData' => $client
             ]);
-
         }catch (\Exception $e){
             return apiResponse(['success' => false, 'message' => $e->getMessage()], 500);
         }
