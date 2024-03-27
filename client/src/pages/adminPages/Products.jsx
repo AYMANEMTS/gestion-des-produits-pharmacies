@@ -83,7 +83,7 @@ function Products() {
     }
     return (
         <>
-            <Card className="">
+            <Card className="my-8">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
                     <div className="mb-8 flex items-center justify-between gap-8">
                         <div>
@@ -298,10 +298,16 @@ function Products() {
                         Page {paginationData.page} of {paginationData.totalPages}
                     </Typography>
                     <div className="flex gap-2">
-                    <Button disabled={paginationData.page === 1} onClick={() => setPaginationData({page: paginationData.page - 1})} variant="outlined" size="sm">
+                    <Button disabled={paginationData.page === 1} onClick={() => {
+                        setPaginationData({page: paginationData.page - 1})
+                        window.scrollTo(0,0)
+                    }} variant="outlined" size="sm">
                             Previous
                         </Button>
-                        <Button disabled={paginationData.page === paginationData.totalPages} onClick={() => setPaginationData({page: paginationData.page + 1})} variant="outlined" size="sm">
+                        <Button disabled={paginationData.page === paginationData.totalPages} onClick={() => {
+                            setPaginationData({page: paginationData.page + 1})
+                            window.scrollTo(0,0)
+                        }} variant="outlined" size="sm">
                             Next
                         </Button>
                     </div>

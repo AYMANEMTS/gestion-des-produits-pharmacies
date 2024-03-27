@@ -79,12 +79,14 @@ function SideBar() {
                                 </ListItemPrefix>
                                 Categories
                             </ListItem>
-                            <ListItem>
-                                <ListItemPrefix>
-                                    <ChevronRightIcon strokeWidth={3} className="h-3 w-5"/>
-                                </ListItemPrefix>
-                                Users
-                            </ListItem>
+                            <Link to={"/admin/users"}>
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5"/>
+                                    </ListItemPrefix>
+                                    Users
+                                </ListItem>
+                            </Link>
                             <ListItem>
                                 <ListItemPrefix>
                                     <ChevronRightIcon strokeWidth={3} className="h-3 w-5"/>

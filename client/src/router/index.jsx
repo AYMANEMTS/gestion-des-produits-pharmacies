@@ -17,6 +17,7 @@ import Contact from "../pages/gesutPages/Contact";
 import AdminLogin from "../pages/Auth/admin/AdminLogin";
 import AHome from "../pages/adminPages/AHome";
 import Products from "../pages/adminPages/Products";
+import Users from "../pages/adminPages/Users";
 export const router = createBrowserRouter([
     {
         element: <GeustLayout />,
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
             {
                 element: <Products />,
                 path: "/admin/products"
+            },
+            {
+                element: <Users />,
+                path: "/admin/users"
             }
         ]
     },
