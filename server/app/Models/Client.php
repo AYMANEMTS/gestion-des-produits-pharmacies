@@ -17,6 +17,7 @@ class Client extends Authenticatable
     protected $fillable = [
         'username','name','phone','address','CNN','email','password'
     ];
+    protected $hidden = ['password'];
     public function commands()
     {
         return $this->hasMany(ClientCommand::class,'client_id');

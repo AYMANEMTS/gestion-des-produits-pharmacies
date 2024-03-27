@@ -20,7 +20,7 @@ class PharmacienAuthController extends Controller
         try {
             $data['password'] = Hash::make($data['password']);
             $pharmacien = Pharmacien::create($data);
-            return apiResponse(['success'=>'true','data'=>$pharmacien]);
+            return apiResponse(['success'=>true,'data'=>$pharmacien]);
         }catch (\Exception $e){
             return apiResponse(['success' => false, 'message' => $e->getMessage()], 500);
 

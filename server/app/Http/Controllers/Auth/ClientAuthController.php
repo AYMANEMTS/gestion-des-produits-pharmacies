@@ -20,7 +20,7 @@ class ClientAuthController extends Controller
         try {
             $data['password'] = Hash::make($data['password']);
             $client = Client::create($data);
-            return apiResponse(['success'=>'true','message' => 'Registration successful! Please log in to your account.']);
+            return apiResponse(['success'=>true,'message' => 'Registration successful! Please log in to your account.']);
         }catch (\Exception $e){
             return apiResponse(['success' => false, 'message' => $e->getMessage()], 500);
 

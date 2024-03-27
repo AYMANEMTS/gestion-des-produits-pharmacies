@@ -17,7 +17,7 @@ class AdminAuthController extends Controller
         try {
             $data['password'] = Hash::make($data['password']);
             $admin = Admin::create($data);
-            return apiResponse(['success'=>'true','data'=>$admin]);
+            return apiResponse(['success'=>true,'message' => 'Admin created Successfully']);
         }catch (\Exception $e){
             return apiResponse(['success' => false, 'message' => $e->getMessage()], 500);
 
