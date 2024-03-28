@@ -1,9 +1,9 @@
 import DefaultUsersTable from "../../components/admincomponents/Users/DefaultUsersTable";
-import {useQuery, useQueryClient} from "react-query";
+import {useQuery} from "react-query";
 import {AdminApi} from "../../api/AdminApi";
 import {
     Button,
-    Card,
+    Card, CardFooter,
     CardHeader, IconButton,
     Input, Menu,
     MenuHandler,
@@ -14,14 +14,14 @@ import {
     Typography
 } from "@material-tailwind/react";
 import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import AdminsTable from "../../components/admincomponents/Users/AdminsTable";
 import ClientsTable from "../../components/admincomponents/Users/ClientsTable";
 import PharmaciensTable from "../../components/admincomponents/Users/PharmaciensTable";
 import UserDialoge from "../../components/admincomponents/Users/UserDialoge";
-import {CustomSpinner} from "../../components/CustomSpinner";
 import toast from "react-hot-toast";
 
+const ITEMS_PER_PAGE = 10;
 function Users() {
     const [filteredData, setFilteredData] = useState([]);
     const [usersData, setUsersData] = useState({
@@ -66,7 +66,44 @@ function Users() {
             }
         }
     }
+    const [currentPage, setCurrentPage] = useState(1);
 
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+
+    const currentPageData = () => {
+        switch (tableType) {
+            case "all":
+                return filteredData.slice(startIndex, endIndex);
+            case "admin":
+                return usersData.admins.slice(startIndex, endIndex);
+            case "client":
+                return usersData.clients.slice(startIndex, endIndex);
+            case "pharmacien":
+                return usersData.pharmaciens.slice(startIndex,endIndex);
+            default:
+                break
+        }
+    }
+
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => prevPage - 1);
+    };
+    const calculPaginatedDataLength = () => {
+        switch (tableType) {
+            case "all":
+                return filteredData?.length
+            case "admin":
+                return usersData.admins.length
+            case "client":
+                return usersData.clients.length
+            case "pharmacien":
+                return usersData.pharmaciens.length
+        }
+    }
     return (
         <>
             <Card className="">
@@ -124,16 +161,28 @@ function Users() {
                     <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
                         <Tabs value="all" className="w-full">
                             <TabsHeader>
-                                <Tab onClick={() => setTableType("all")} value={"all"} >
+                                <Tab onClick={() => {
+                                    setTableType("all")
+                                    setCurrentPage(1)
+                                }} value={"all"} >
                                     All
                                 </Tab>
-                                <Tab onClick={() => setTableType("client")}  value={"client"} >
+                                <Tab onClick={() => {
+                                    setTableType("client")
+                                    setCurrentPage(1)
+                                }}  value={"client"} >
                                     Client
                                 </Tab>
-                                <Tab onClick={() => setTableType("admin")} value={"admin"} >
+                                <Tab onClick={() => {
+                                    setTableType("admin")
+                                    setCurrentPage(1)
+                                }} value={"admin"} >
                                     Admin
                                 </Tab>
-                                <Tab onClick={() => setTableType("pharmacien")} value={"pharmacien"} >
+                                <Tab onClick={() => {
+                                    setTableType("pharmacien")
+                                    setCurrentPage(1)
+                                }} value={"pharmacien"} >
                                     Pharmacien
                                 </Tab>
                             </TabsHeader>
@@ -160,22 +209,40 @@ function Users() {
                     </div>
                 </CardHeader>
                 {tableType === "all" && (
-                    <DefaultUsersTable setFormContext={setFormContext} handleOpen={handleOpen} data={filteredData}
+                    <DefaultUsersTable setFormContext={setFormContext} handleOpen={handleOpen} data={currentPageData()}
                                        handleDeleteUser={handleDeleteUser}/>
                 )}
                 {tableType === "admin" && (
-                    <AdminsTable setFormContext={setFormContext} handleOpen={handleOpen} data={usersData.admins}
+                    <AdminsTable setFormContext={setFormContext} handleOpen={handleOpen} data={currentPageData()}
                                  handleDeleteUser={handleDeleteUser}/>
                 )}
                 {tableType === "client" && (
-                    <ClientsTable setFormContext={setFormContext} handleOpen={handleOpen} data={usersData.clients}
+                    <ClientsTable setFormContext={setFormContext} handleOpen={handleOpen} data={currentPageData()}
                                   handleDeleteUser={handleDeleteUser}/>
                 )}
                 {tableType === "pharmacien" && (
-                    <PharmaciensTable setFormContext={setFormContext} handleOpen={handleOpen} data={usersData.pharmaciens}
+                    <PharmaciensTable setFormContext={setFormContext} handleOpen={handleOpen} data={currentPageData()}
                                       handleDeleteUser={handleDeleteUser}/>
                 )}
             </Card>
+            <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+                <Typography variant="small" color="blue-gray" className="font-normal">
+                    Page {currentPage} of {Math.ceil(calculPaginatedDataLength() / ITEMS_PER_PAGE)}
+                </Typography>
+                <div className="flex gap-2">
+                    <Button variant="outlined" size="sm" disabled={currentPage === 1} onClick={handlePreviousPage}>
+                        Previous
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="sm"
+                        disabled={currentPage === Math.ceil(calculPaginatedDataLength() / ITEMS_PER_PAGE)}
+                        onClick={handleNextPage}
+                    >
+                        Next
+                    </Button>
+                </div>
+            </CardFooter>
             <UserDialoge setFormContext={setFormContext} formContext={formContext} open={open} handleOpen={handleOpen} />
         </>
     );

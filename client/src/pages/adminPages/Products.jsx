@@ -22,6 +22,7 @@ import {ProductDialog} from "../../components/admincomponents/products/ProductDi
 import {useAdminContext} from "../../contexts/AdminContext";
 import {AdminApi} from "../../api/AdminApi";
 import toast from "react-hot-toast";
+import {ShowImageFromServer} from "../../helpers/ShowImageFromServer";
 
 function Products() {
     const TABLE_HEAD = ["Product", "Fourniseur", "Category","Promo" ,"Qty" ,"Prix Vendre",""];
@@ -83,7 +84,7 @@ function Products() {
     }
     return (
         <>
-            <Card className="my-8">
+            <Card className="">
                 <CardHeader floated={false} shadow={false} className="rounded-none">
                     <div className="mb-8 flex items-center justify-between gap-8">
                         <div>
@@ -182,7 +183,7 @@ function Products() {
                                     <tr key={index}>
                                         <td className={classes}>
                                             <div className="flex items-center gap-3">
-                                                <Avatar src={"http://localhost:8000/storage/products_images/"+product?.image} alt={product?.name} size="sm" />
+                                                <Avatar src={ShowImageFromServer(product?.image)} alt={product?.name} size="sm" />
                                                 <div className="flex flex-col">
                                                     <Typography
                                                         variant="small"

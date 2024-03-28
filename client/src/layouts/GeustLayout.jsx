@@ -30,7 +30,6 @@ function GeustLayout() {
     const [open, setOpen] = useState(false);
     const handlePageChange = async (page) => {
         setPage(page);
-        setIsLoading(true)
         await ClientApi.getProduts(parseInt(page)).then(({data}) => {
             setTotalPages(Math.ceil(data.data.total / 9))
             setProducts(data.data.data)

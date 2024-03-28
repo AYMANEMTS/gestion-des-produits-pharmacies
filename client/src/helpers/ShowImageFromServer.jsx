@@ -1,0 +1,1 @@
+export const ShowImageFromServer = (image) => `http://localhost:8000/storage/products_images/${image}`

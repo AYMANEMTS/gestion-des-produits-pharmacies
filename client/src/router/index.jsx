@@ -18,6 +18,9 @@ import AdminLogin from "../pages/Auth/admin/AdminLogin";
 import AHome from "../pages/adminPages/AHome";
 import Products from "../pages/adminPages/Products";
 import Users from "../pages/adminPages/Users";
+import Categories from "../pages/adminPages/Categories";
+import Fourniseurs from "../pages/adminPages/Fourniseurs";
+import Pharmacy from "../pages/adminPages/Pharmacy";
 export const router = createBrowserRouter([
     {
         element: <GeustLayout />,
@@ -68,6 +71,18 @@ export const router = createBrowserRouter([
             {
                 element: <Users />,
                 path: "/admin/users"
+            },
+            {
+                element: <Categories />,
+                path: "/admin/category"
+            },
+            {
+                element: <Fourniseurs />,
+                path: "/admin/fourniseurs"
+            },
+            {
+                element: <Pharmacy />,
+                path: "/admin/pharmacy"
             }
         ]
     },

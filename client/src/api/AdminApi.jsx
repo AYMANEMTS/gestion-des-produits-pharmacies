@@ -45,6 +45,32 @@ export const AdminApi = {
                 "Content-Type":"multipart/form-data"
             }
         }).catch((e) => console.log(e))
-    }
-
+    },
+    createCategory: async (data) => {
+        return await axiosClient.post('/api/category',data).catch((e) => console.log(e))
+    },
+    updateCategory: async (id,data) => {
+        return await axiosClient.post(`/api/category/${id}/update`,data).catch((e) => console.log(e))
+    },
+    deleteCategory: async (id) => {
+        return await axiosClient.delete(`/api/category/${id}`).catch((e) => console.log(e))
+    },
+    createFourniseur: async (data) => {
+        return await axiosClient.post('/api/fourniseur',data).catch((e) => console.log(e))
+    },
+    updateFourniseur: async (id,data) => {
+        return await axiosClient.post(`/api/fourniseur/${id}/update`,data).catch((e) => console.log(e))
+    },
+    deleteFourniseur: async (id) => {
+        return await axiosClient.delete(`/api/fourniseur/${id}`).catch((e) => console.log(e))
+    },
+    updatePharmacy: async (id,data) => {
+        return await axiosClient.post(`/api/pharmacy/${id}/update`,data).catch((e) => console.log(e))
+    },
+    deletePharmacy: async (id) => {
+        return await axiosClient.delete(`/api/pharmacy/${id}`).catch((e) => console.log(e))
+    },
+    createPharmacy: async (data) => {
+        return await axiosClient.post('/api/pharmacy/store',data).catch((e) => console.log(e))
+    },
 }

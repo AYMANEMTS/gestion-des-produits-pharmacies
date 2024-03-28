@@ -33,7 +33,6 @@ function Checkout() {
     const handleOpen = () => setOpen(!open);
 
     const handllOrder = async (data) => {
-        setIsLoading(true)
         const productsWithQty = {};
         cartItems.forEach((item) => {
             productsWithQty[item.id] = item.qty;
