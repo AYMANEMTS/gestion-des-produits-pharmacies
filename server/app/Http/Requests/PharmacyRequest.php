@@ -26,13 +26,14 @@ class PharmacyRequest extends FormRequest
         return [
             'name' => 'required',
             'address' => 'required',
-            'contact' => 'required'
+            'contact' => 'required',
+            // 'percentage' => 'nullable'
         ];
     }
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
+            'status'   => false,
             'message'   => 'Validation errors',
             'errors'      => $validator->errors()
         ]));

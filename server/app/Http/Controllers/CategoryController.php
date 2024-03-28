@@ -15,7 +15,7 @@ class CategoryController extends Controller
     {
         $categoy = new Category();
         return apiResponse([
-            'categories'=>Category::with(['produits','produits.category','produits.promotion'])->get(),
+            'categories'=>Category::with(['produits','produits.category','produits.promotion'])->orderBy('created_at','desc')->get(),
             'topCategories'=>$categoy->getTopCategories(9)
         ]);
     }
@@ -45,9 +45,9 @@ class CategoryController extends Controller
     {
         try {
             $cate = Category::findOrFail($id);
-            return apiResponse(['success'=>true,'data'=>$cate],200);
+            return apiResponse(['status'=>true,'data'=>$cate],200);
         }catch (\Exception $e){
-            return apiResponse(['success'=>false,'message'=>$e->getMessage()],500);
+            return apiResponse(['status'=>false,'message'=>$e->getMessage()],500);
         }
     }
 

@@ -10,7 +10,7 @@ class PharmacyController extends Controller
 {
     public function index()
     {
-        return apiResponse(['data'=>Pharmacy::all()]);
+        return apiResponse(['data'=>Pharmacy::orderBy('created_at', 'desc')->get()]);
     }
 
     public function store(PharmacyRequest $pharmacyRequest)
@@ -18,10 +18,10 @@ class PharmacyController extends Controller
         try {
             $data = $pharmacyRequest->validated();
             Pharmacy::create($data);
-            return apiResponse(['success'=>'true','message'=>'pharmacy created successfully']);
+            return apiResponse(['status'=>true,'message'=>'pharmacy created successfully']);
 
         }catch (\Exception $e){
-            return apiResponse(['success'=>'false','message'=>$e->getMessage()],500);
+            return apiResponse(['status'=>false,'message'=>$e->getMessage()],500);
         }
     }
 
@@ -41,10 +41,10 @@ class PharmacyController extends Controller
             $data = $pharmacyRequest->validated();
             $pharmacy = Pharmacy::findOrFail($id);
             $pharmacy->update($data);
-            return apiResponse(['success'=>'true','message'=>'pharmacy updated successfully']);
+            return apiResponse(['status'=>true,'message'=>'pharmacy updated successfully']);
 
         }catch (\Exception $e){
-            return apiResponse(['success'=>'false','message'=>$e->getMessage()],500);
+            return apiResponse(['status'=>false,'message'=>$e->getMessage()],500);
         }
     }
     public function destroy(string $id)

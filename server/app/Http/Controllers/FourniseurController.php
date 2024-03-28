@@ -10,7 +10,7 @@ class FourniseurController extends Controller
 {
     public function index()
     {
-        return apiResponse(['data'=>Fourniseur::all()]);
+        return apiResponse(['data'=>Fourniseur::orderBy('created_at', 'desc')->get()]);
     }
 
     public function store(FourniseurRequest $fourniseurRequest)
