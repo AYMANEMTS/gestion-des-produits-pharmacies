@@ -45,4 +45,9 @@ class PharmacienOrderController extends Controller
         $commandsClient = PharmacienCommand::with(['produits','produits.category','pharmacien','pharmacien.pharmacy'])->get();
         return apiResponse($commandsClient);
     }
+    public function getOrders()
+    {
+        $pharmacienOrders = PharmacienCommand::with(['produits','produits.category','produits.promotion','pharmacien'])->orderBy('created_at','desc')->get();
+        return apiResponse($pharmacienOrders);
+    }
 }

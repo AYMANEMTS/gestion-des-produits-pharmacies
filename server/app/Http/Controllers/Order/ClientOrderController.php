@@ -55,7 +55,7 @@ class ClientOrderController extends Controller
     }
     public function getOrders()
     {
-        $commandsClient = ClientCommand::with(['produits','produits.category','produits.promotion','client'])->get();
+        $commandsClient = ClientCommand::with(['produits','produits.category','produits.promotion','client'])->orderBy('created_at','desc')->get();
         return apiResponse($commandsClient);
     }
     public function showOrder(string $id)
