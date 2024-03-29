@@ -73,4 +73,16 @@ export const AdminApi = {
     createPharmacy: async (data) => {
         return await axiosClient.post('/api/pharmacy/store',data).catch((e) => console.log(e))
     },
+    getClientsOrders: async () => {
+        return await axiosClient.get('/api/client/orders').catch((e) => console.log(e))
+    },
+    getPharmaciensOrders: async () => {
+        return await axiosClient.get('/api/pharmacien/orders').catch((e) => console.log(e))
+    },
+    changeOrderStatus: async (id,data) => {
+        return await axiosClient.post(`/api/admin/command/${id}/update/status`,data).catch((e) => console.log(e))
+    },
+    updateOrderDate: async (id,data) => {
+        return await axiosClient.post(`/api/admin/update/order/${id}/date`,data).catch((e) => console.log(e))
+    }
 }

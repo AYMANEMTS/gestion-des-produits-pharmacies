@@ -9,7 +9,7 @@ import {Link} from "react-router-dom";
 function ShopingCart() {
     const {cartItems,getTotalPrice} = useShopingCart()
     const {products} = useStoreContext()
-    const relatedProducts = products.slice(0,8)
+    const relatedProducts = products && products?.slice(0,8)
     return (
         <>
             {cartItems.length < 1 && (

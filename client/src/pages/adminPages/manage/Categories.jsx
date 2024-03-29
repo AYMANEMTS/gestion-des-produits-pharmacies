@@ -14,10 +14,10 @@ import {
     CardFooter,
     Avatar, Tooltip, IconButton,
 } from "@material-tailwind/react";
-import {useAdminContext} from "../../contexts/AdminContext";
-import CategoryFormModal from "../../components/admincomponents/category/CategoryFormModal";
-import {ShowImageFromServer} from "../../helpers/ShowImageFromServer";
-import {AdminApi} from "../../api/AdminApi";
+import {useAdminContext} from "../../../contexts/AdminContext";
+import CategoryFormModal from "../../../components/admincomponents/category/CategoryFormModal";
+import {ShowImageFromServer} from "../../../helpers/ShowImageFromServer";
+import {AdminApi} from "../../../api/AdminApi";
 import toast from "react-hot-toast";
 
 const ITEMS_PER_PAGE = 5;
@@ -139,6 +139,9 @@ function Categories() {
                                     </tr>
                                 );
                             },
+                        )}
+                        {currentPageData?.length === 0 && (
+                            <td align={"center"} colSpan={7} className={"pt-4"}>No Categories</td>
                         )}
                         </tbody>
                     </table>

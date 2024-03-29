@@ -11,15 +11,15 @@ import {
 } from "@material-tailwind/react";
 import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 import {PencilIcon, UserPlusIcon} from "@heroicons/react/24/solid";
-import {useAdminContext} from "../../contexts/AdminContext";
-import FourniseurModal from "../../components/admincomponents/fourniseurs/FourniseurModal";
-import {AdminApi} from "../../api/AdminApi";
+import {useAdminContext} from "../../../contexts/AdminContext";
 import {useQueryClient} from "react-query";
+import PharmacyModal from "../../../components/admincomponents/pharmacy/PharmacyModal";
+import {AdminApi} from "../../../api/AdminApi";
 
 
 const ITEMS_PER_PAGE = 8
 function Fourniseurs() {
-    const {fourniseurs} = useAdminContext()
+    const {pharmacy:pharmacyes} = useAdminContext()
     const [searchQuery, setSearchQuery] = useState('');
     const [open, setOpen] = useState(false)
     const handleOpen = () => setOpen(!open)
@@ -31,23 +31,23 @@ function Fourniseurs() {
     const handlePreviousPage = () => {
         setCurrentPage((prevPage) => prevPage - 1);
     };
-    const filteredFourniseurs = fourniseurs.filter((fourniseur) =>
-        fourniseur.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        fourniseur.phone.toLowerCase().includes(searchQuery.toLowerCase())
+    const filtredPharmacy = pharmacyes.filter((pharmacy) =>
+        pharmacy.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        pharmacy.contact.toLowerCase().includes(searchQuery.toLowerCase())
 
     );
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const currentPageData = filteredFourniseurs.slice(startIndex, endIndex);
+    const currentPageData = filtredPharmacy.slice(startIndex, endIndex);
     useEffect(() => {
         setCurrentPage(1);
     }, [searchQuery]);
     const queryClient = useQueryClient()
     const deleteCallBack = async (id) => {
-        const confirmation = window.confirm("Are you sure to delete this fourniseur")
+        const confirmation = window.confirm("Are you sure to delete this pharmacy")
         if (confirmation){
-            await AdminApi.deleteFourniseur(id)
-            await queryClient.invalidateQueries("fourniseurs")
+            await AdminApi.deletePharmacy(id)
+            await queryClient.invalidateQueries("pharmacy")
         }
     };
 
@@ -58,7 +58,7 @@ function Fourniseurs() {
                     <div className="my-2 mx-2 flex flex-col justify-between gap-8 md:flex-row md:items-center">
                         <div>
                             <Typography variant="h5" color="blue-gray">
-                                Fourniseurs List
+                                Pharmacy List
                             </Typography>
                         </div>
                         <div className="flex w-full shrink-0 gap-2 md:w-max">
@@ -72,7 +72,7 @@ function Fourniseurs() {
                                 setFormContext({isUpdate: false,data: {}})
                                 handleOpen()
                             }} color={"green"} className="flex items-center gap-3" size="sm">
-                                <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add Fourniseur
+                                <UserPlusIcon strokeWidth={2} className="h-4 w-4" /> Add Pharmacy
                             </Button>
                         </div>
                     </div>
@@ -96,7 +96,7 @@ function Fourniseurs() {
                                     color="blue-gray"
                                     className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
                                 >
-                                    Phone
+                                    Contact
                                 </Typography>
                             </th>
                             <th className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
@@ -105,7 +105,7 @@ function Fourniseurs() {
                                     color="blue-gray"
                                     className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
                                 >
-                                    Contact
+                                    Percentage
                                 </Typography>
                             </th>
                             <th className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50">
@@ -115,8 +115,8 @@ function Fourniseurs() {
                         </thead>
                         <tbody>
                         {currentPageData.map(
-                            (fourniseur, index) => {
-                                const isLast = index === fourniseurs.length - 1;
+                            (pharmacy, index) => {
+                                const isLast = index === pharmacy.length - 1;
                                 const classes = isLast
                                     ? "p-4"
                                     : "p-4 border-b border-blue-gray-50";
@@ -125,31 +125,30 @@ function Fourniseurs() {
                                     <tr key={index}>
                                         <td className={classes}>
                                             <Typography>
-                                                {fourniseur?.name}
+                                                {pharmacy?.name}
                                             </Typography>
                                         </td>
                                         <td className={classes}>
                                             <Typography>
-                                                {fourniseur?.phone}
+                                                {pharmacy?.contact}
                                             </Typography>
                                         </td>
-
                                         <td className={classes}>
                                             <Typography>
-                                                {fourniseur?.contact}
+                                                {pharmacy?.percentage}
                                             </Typography>
                                         </td>
                                         <td className={classes}>
                                             <Tooltip content="Edit Fourniseur">
                                                 <IconButton onClick={() => {
-                                                    setFormContext({isUpdate: true, data: fourniseur})
+                                                    setFormContext({isUpdate: true, data: pharmacy})
                                                     handleOpen()
                                                 }} color={"orange"} variant="text">
                                                     <PencilIcon className="h-4 w-4"/>
                                                 </IconButton>
                                             </Tooltip>
                                             <Tooltip content="Delete Fourniseur">
-                                                <IconButton onClick={() => deleteCallBack(fourniseur.id)}
+                                                <IconButton onClick={() => deleteCallBack(pharmacy.id)}
                                                             color={"red"} variant="text">
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                          fill="currentColor" className="w-6 h-6">
@@ -164,12 +163,15 @@ function Fourniseurs() {
                                 );
                             },
                         )}
+                        {currentPageData?.length === 0 && (
+                            <td align={"center"} colSpan={7} className={"pt-4"}>No Pharmacy</td>
+                        )}
                         </tbody>
                     </table>
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                 <Typography variant="small" color="blue-gray" className="font-normal">
-                        Page {currentPage} of {Math.ceil(fourniseurs.length / ITEMS_PER_PAGE)}
+                        Page {currentPage} of {Math.ceil(pharmacyes.length / ITEMS_PER_PAGE)}
                     </Typography>
                     <div className="flex gap-2">
                         <Button variant="outlined" size="sm" disabled={currentPage === 1} onClick={handlePreviousPage}>
@@ -178,7 +180,7 @@ function Fourniseurs() {
                         <Button
                             variant="outlined"
                             size="sm"
-                            disabled={currentPage === Math.ceil(fourniseurs.length / ITEMS_PER_PAGE)}
+                            disabled={currentPage === Math.ceil(pharmacyes.length / ITEMS_PER_PAGE)}
                             onClick={handleNextPage}
                         >
                             Next
@@ -186,7 +188,7 @@ function Fourniseurs() {
                     </div>
                 </CardFooter>
             </Card>
-            <FourniseurModal open={open} handleOpen={handleOpen} formContext={formContext} />
+            <PharmacyModal open={open} handleOpen={handleOpen} formContext={formContext} />
         </div>
     );
 }

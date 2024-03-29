@@ -16,7 +16,7 @@ function FillterProduct({fliterProductsWithCategory,resetProduct,filterWithMinPr
     const {products} = useStoreContext()
     let maxPrice = 0;
     let minPrice = Number.MAX_VALUE;
-    products.forEach((product) => {
+    products?.forEach((product) => {
         if (product.prix_vendre > maxPrice) {
             maxPrice = product.prix_vendre;
         }

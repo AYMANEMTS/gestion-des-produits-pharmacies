@@ -16,11 +16,13 @@ import OrderDetail from "../pages/clientPages/OrderDetail";
 import Contact from "../pages/gesutPages/Contact";
 import AdminLogin from "../pages/Auth/admin/AdminLogin";
 import AHome from "../pages/adminPages/AHome";
-import Products from "../pages/adminPages/Products";
-import Users from "../pages/adminPages/Users";
-import Categories from "../pages/adminPages/Categories";
-import Fourniseurs from "../pages/adminPages/Fourniseurs";
-import Pharmacy from "../pages/adminPages/Pharmacy";
+import Products from "../pages/adminPages/manage/Products";
+import Users from "../pages/adminPages/manage/Users";
+import Categories from "../pages/adminPages/manage/Categories";
+import Fourniseurs from "../pages/adminPages/manage/Fourniseurs";
+import Pharmacy from "../pages/adminPages/manage/Pharmacy";
+import PharmaciensOrders from "../pages/adminPages/oreders/pharmaciens/PharmaciensOrders";
+import ClientsOrders from "../pages/adminPages/oreders/clients/ClientsOrders";
 export const router = createBrowserRouter([
     {
         element: <GeustLayout />,
@@ -83,6 +85,14 @@ export const router = createBrowserRouter([
             {
                 element: <Pharmacy />,
                 path: "/admin/pharmacy"
+            },
+            {
+                element: <PharmaciensOrders />,
+                path: "/admin/orders/pharmaciens"
+            },
+            {
+                element: <ClientsOrders />,
+                path: "/admin/orders/clients"
             }
         ]
     },

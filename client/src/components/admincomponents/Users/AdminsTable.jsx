@@ -136,6 +136,9 @@ function AdminsTable({data,handleOpen,setFormContext,handleDeleteUser}) {
                             );
                         },
                     )}
+                    {data?.length === 0 && (
+                        <td align={"center"} colSpan={7} className={"pt-4"}>No Admins</td>
+                    )}
                     </tbody>
                 </table>
             </CardBody>

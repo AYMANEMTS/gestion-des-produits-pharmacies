@@ -3,6 +3,7 @@ import CardProduct from "../../components/geustComponents/CardProduct";
 import {useStoreContext} from "../../contexts/StoreContext";
 import {useEffect, useState} from "react";
 import {useLocation} from "react-router-dom";
+import AlertCustomCloseIcon from "../../components/AlertCustomCloseIcon";
 
 function GStore() {
     const {products} = useStoreContext()
@@ -57,21 +58,26 @@ function GStore() {
     }, [products,searchWithName,searchWithCate,productsFiltred]);
     const resetProduct = () => setProductsFiltred(products)
     return (
-        <div className={"mx-auto my-12"}>
-            <FillterProduct fliterProductsWithCategory={fliterProductsWithCategory} resetProduct={resetProduct}
-                filterWithMinPrice={filterWithMinPrice} filterWithMaxPrice={filterWithMaxPrice} filterAlphabetically={filterAlphabetically}
-                            filterByPrice={filterByPrice}
-            />
-            <div className={"grid lg:grid-cols-4 md:grid-cols-3  grid-cols-1 mx-4 lg:mx-0 md:lx-0 sm:mx-4 gap-4"}>
-                {productsFiltred.map((product, key) => (
-                    <div key={key}>
-                        <CardProduct product={product}/>
+        <>
+            {products && products.length > 0 ? (
+                <div className={"mx-auto my-12"}>
+                    <FillterProduct fliterProductsWithCategory={fliterProductsWithCategory} resetProduct={resetProduct}
+                                    filterWithMinPrice={filterWithMinPrice} filterWithMaxPrice={filterWithMaxPrice}
+                                    filterAlphabetically={filterAlphabetically}
+                                    filterByPrice={filterByPrice}
+                    />
+                    <div
+                        className={"grid lg:grid-cols-4 md:grid-cols-3  grid-cols-1 mx-4 lg:mx-0 md:lx-0 sm:mx-4 gap-4"}>
+                        {productsFiltred?.map((product, key) => (
+                            <div key={key}>
+                                <CardProduct product={product}/>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
 
-        </div>
-
+                </div>
+            ): <AlertCustomCloseIcon defaultOpen={true} /> }
+        </>
     );
 }
 

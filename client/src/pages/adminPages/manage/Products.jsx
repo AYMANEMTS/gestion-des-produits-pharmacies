@@ -17,12 +17,12 @@ import {
     IconButton,
     Tooltip, Menu, MenuItem , MenuHandler , MenuList
 } from "@material-tailwind/react";
-import {useStoreContext} from "../../contexts/StoreContext";
-import {ProductDialog} from "../../components/admincomponents/products/ProductDialog";
-import {useAdminContext} from "../../contexts/AdminContext";
-import {AdminApi} from "../../api/AdminApi";
+import {useStoreContext} from "../../../contexts/StoreContext";
+import {ProductDialog} from "../../../components/admincomponents/products/ProductDialog";
+import {useAdminContext} from "../../../contexts/AdminContext";
+import {AdminApi} from "../../../api/AdminApi";
 import toast from "react-hot-toast";
-import {ShowImageFromServer} from "../../helpers/ShowImageFromServer";
+import {ShowImageFromServer} from "../../../helpers/ShowImageFromServer";
 
 function Products() {
     const TABLE_HEAD = ["Product", "Fourniseur", "Category","Promo" ,"Qty" ,"Prix Vendre",""];
@@ -290,6 +290,9 @@ function Products() {
                                     </tr>
                                 );
                             },
+                        )}
+                        {productFiltred?.length === 0 && (
+                            <td align={"center"} colSpan={7} className={"pt-4"}>No Products</td>
                         )}
                         </tbody>
                     </table>

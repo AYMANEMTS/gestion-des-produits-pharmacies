@@ -1,6 +1,6 @@
-import DefaultUsersTable from "../../components/admincomponents/Users/DefaultUsersTable";
+import DefaultUsersTable from "../../../components/admincomponents/Users/DefaultUsersTable";
 import {useQuery} from "react-query";
-import {AdminApi} from "../../api/AdminApi";
+import {AdminApi} from "../../../api/AdminApi";
 import {
     Button,
     Card, CardFooter,
@@ -15,10 +15,10 @@ import {
 } from "@material-tailwind/react";
 import {MagnifyingGlassIcon} from "@heroicons/react/24/outline";
 import React, { useState} from "react";
-import AdminsTable from "../../components/admincomponents/Users/AdminsTable";
-import ClientsTable from "../../components/admincomponents/Users/ClientsTable";
-import PharmaciensTable from "../../components/admincomponents/Users/PharmaciensTable";
-import UserDialoge from "../../components/admincomponents/Users/UserDialoge";
+import AdminsTable from "../../../components/admincomponents/Users/AdminsTable";
+import ClientsTable from "../../../components/admincomponents/Users/ClientsTable";
+import PharmaciensTable from "../../../components/admincomponents/Users/PharmaciensTable";
+import UserDialoge from "../../../components/admincomponents/Users/UserDialoge";
 import toast from "react-hot-toast";
 
 const ITEMS_PER_PAGE = 10;

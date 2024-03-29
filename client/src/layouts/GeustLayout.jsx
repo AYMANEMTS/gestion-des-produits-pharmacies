@@ -13,7 +13,7 @@ import {CustomSpinner} from "../components/CustomSpinner";
 
 
 function GeustLayout() {
-    const {setProducts,isLoading,setIsLoading} = useStoreContext()
+    const {setProducts,isLoading,setIsLoading,products} = useStoreContext()
     const [page, setPage] = useState(1)
     const [totalPages, setTotalPages] = useState(0)
     const {data: pdu,isFetching} = useQuery(['products',page], () =>  ClientApi.getProduts(page),{
@@ -21,22 +21,28 @@ function GeustLayout() {
         retry:1,
         cacheTime:100000,
         staleTime:100000,
-        onSuccess:(({data}) => {
-            setTotalPages(Math.ceil(data.data.total / 9))
-            setProducts(data.data.data)
-        })
+        onSuccess:(({data}=[]) => {
+            setTotalPages(Math.ceil(data?.data?.total / 9))
+            setProducts(data?.data?.data)
+        }),
+        onError: (e => console.log(e))
 
     })
     const [open, setOpen] = useState(false);
     const handlePageChange = async (page) => {
         setPage(page);
-        await ClientApi.getProduts(parseInt(page)).then(({data}) => {
-            setTotalPages(Math.ceil(data.data.total / 9))
-            setProducts(data.data.data)
-        }).finally(() => {
-            setIsLoading(false)
-            window.scrollTo({top:200})
-        })
+        try {
+            await ClientApi.getProduts(parseInt(page)).then(({data}) => {
+                setTotalPages(Math.ceil(data?.data?.total / 9))
+                setProducts(data?.data?.data)
+            }).finally(() => {
+                setIsLoading(false)
+                window.scrollTo({top:200})
+            })
+        }catch (e) {
+            console.log(e)
+        }
+
     }
     const {pathname} = useLocation()
     const openDrawer = () => {
@@ -62,7 +68,7 @@ function GeustLayout() {
                 <Outlet />
                 <DefaultSpeedDial openDrawer={openDrawer}/>
                 <FavoriteDrawer open={open} openDrawer={openDrawer} closeDrawer={closeDrawer}/>
-                {pathname === "/store" && (
+                {pathname === "/store" && products && products.length > 0 && (
                     <div className={"my-4 flex justify-end "}>
                         <Pagination totalPages={totalPages} activePage={page} onPageChange={handlePageChange}/>
                     </div>

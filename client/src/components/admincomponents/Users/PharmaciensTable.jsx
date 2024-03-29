@@ -151,6 +151,9 @@ function PharmaciensTable({data,handleOpen,setFormContext,handleDeleteUser}) {
                             );
                         },
                     )}
+                    {data?.length === 0 && (
+                        <td align={"center"} colSpan={7} className={"pt-4"}>No Pharmacien</td>
+                    )}
                     </tbody>
                 </table>
             </CardBody>
