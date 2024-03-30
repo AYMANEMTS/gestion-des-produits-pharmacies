@@ -16,7 +16,7 @@ import MenuBarMobile from "../components/admincomponents/MenuBarMobile";
 function AdminLayout() {
     const userType = secureLocalStorage.getItem('userType')
     const token = secureLocalStorage.getItem('token')
-    const {paginationData,setPaginationData,setCategories,setFourniseurs,setPharmacy} = useAdminContext()
+    const {paginationData,setCategories,setFourniseurs,setPharmacy} = useAdminContext()
     const navigate = useNavigate()
     const {setProducts,isLoading} = useStoreContext()
     useEffect(() => {
@@ -28,8 +28,7 @@ function AdminLayout() {
     const {data:x,isLoading:loader1} = useQuery(['products',page],() => ClientApi.getProduts(page),{
         onSuccess: (({data}=[]) => {
             try {
-                setProducts(data.data.data)
-                setPaginationData({totalPages:Math.ceil(data.data.total / 9),page:data.data.current_page})
+                setProducts(data.data)
             }catch (e){
                 console.log(e)
             }

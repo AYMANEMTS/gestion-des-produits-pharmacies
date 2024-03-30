@@ -23,6 +23,7 @@ import Fourniseurs from "../pages/adminPages/manage/Fourniseurs";
 import Pharmacy from "../pages/adminPages/manage/Pharmacy";
 import PharmaciensOrders from "../pages/adminPages/oreders/pharmaciens/PharmaciensOrders";
 import ClientsOrders from "../pages/adminPages/oreders/clients/ClientsOrders";
+import PStore from "../pages/pharmacienPages/PStore";
 export const router = createBrowserRouter([
     {
         element: <GeustLayout />,
@@ -124,6 +125,10 @@ export const router = createBrowserRouter([
                 element: "pharmacien home",
                 path: "/pharmacien/home"
             },
+            {
+                element: <PStore />,
+                path: "/pharmacien/store"
+            }
         ]
     },
 

@@ -1,6 +1,7 @@
 import { IconButton} from "@material-tailwind/react";
 import {useFavoriteContext} from "../../contexts/FavoriteContext";
 import {useNavigate} from "react-router-dom";
+import {ShowImageFromServer} from "../../helpers/ShowImageFromServer";
 
 function FavoriteItemCart({closeDrawer}) {
     const {favoriteItems,toogleFavorite} = useFavoriteContext()
@@ -10,7 +11,7 @@ function FavoriteItemCart({closeDrawer}) {
             <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1 gap-4 mx-2 ">
                 {favoriteItems.map((item,key) => (
                     <div key={key} className="flex bg-white shadow-md rounded-md overflow-hidden">
-                        <img src={item.product.image} alt={"image"} className="w-24 h-full object-cover"/>
+                        <img src={ShowImageFromServer(item.product.image)} alt={"image"} className="w-24 h-full object-cover"/>
                         <div className="p-4 flex flex-col justify-between">
                             <div>
                                 <h2 className="text-xl font-semibold">{item.product.name}</h2>

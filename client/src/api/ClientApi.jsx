@@ -8,8 +8,8 @@ export const ClientApi = {
     register: async (data) => {
         return await axiosClient.post('/api/client/create',data).catch((e) => console.log(e))
     },
-    getProduts: async (page) => {
-        return await axiosClient.get(`/api/produit?page=${page}`).catch((e) => console.log(e))
+    getProduts: async () => {
+        return await axiosClient.get(`/api/produit`).catch((e) => console.log(e))
     },
     storeOrder: async (data) => {
         return await axiosClient.post('/api/client/order',data).catch((e) => console.log(e))

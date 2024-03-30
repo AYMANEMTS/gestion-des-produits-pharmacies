@@ -24,6 +24,8 @@ import {AdminApi} from "../../../api/AdminApi";
 import toast from "react-hot-toast";
 import {ShowImageFromServer} from "../../../helpers/ShowImageFromServer";
 
+const ITEMS_PER_PAGE = 10;
+
 function Products() {
     const TABLE_HEAD = ["Product", "Fourniseur", "Category","Promo" ,"Qty" ,"Prix Vendre",""];
     const {products} = useStoreContext()
@@ -82,6 +84,16 @@ function Products() {
             }
         }
     }
+    const [currentPage, setCurrentPage] = useState(1)
+    const handleNextPage = () => {
+        setCurrentPage((prevPage) => prevPage + 1);
+    };
+    const handlePreviousPage = () => {
+        setCurrentPage((prevPage) => prevPage - 1);
+    };
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    const currentPageData = productFiltred.slice(startIndex, endIndex);
     return (
         <>
             <Card className="">
@@ -172,7 +184,7 @@ function Products() {
                         </tr>
                         </thead>
                         <tbody>
-                        {productFiltred?.map(
+                        {currentPageData?.map(
                             (product, index) => {
                                 const isLast = index === product.length - 1;
                                 const classes = isLast
@@ -299,19 +311,18 @@ function Products() {
                 </CardBody>
                 <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
                     <Typography variant="small" color="blue-gray" className="font-normal">
-                        Page {paginationData.page} of {paginationData.totalPages}
+                        Page {currentPage} of {Math.ceil(products.length / ITEMS_PER_PAGE)}
                     </Typography>
                     <div className="flex gap-2">
-                    <Button disabled={paginationData.page === 1} onClick={() => {
-                        setPaginationData({page: paginationData.page - 1})
-                        window.scrollTo(0,0)
-                    }} variant="outlined" size="sm">
+                        <Button variant="outlined" size="sm" disabled={currentPage === 1} onClick={handlePreviousPage}>
                             Previous
                         </Button>
-                        <Button disabled={paginationData.page === paginationData.totalPages} onClick={() => {
-                            setPaginationData({page: paginationData.page + 1})
-                            window.scrollTo(0,0)
-                        }} variant="outlined" size="sm">
+                        <Button
+                            variant="outlined"
+                            size="sm"
+                            disabled={currentPage === Math.ceil(products.length / ITEMS_PER_PAGE)}
+                            onClick={handleNextPage}
+                        >
                             Next
                         </Button>
                     </div>
