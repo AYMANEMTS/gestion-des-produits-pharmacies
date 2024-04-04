@@ -12,8 +12,9 @@ class ClientCommand extends Model
     protected $table = 'client_command';
     protected $fillable = [
       'client_id','status','total','date_livred_prevenu','date_livred',
-        'userInformation','shippingAddress','paymentInfo'
+        'name','address','phone','email','payment_type','stripe_session_id'
     ];
+    protected $hidden = ['stripe_session_id'];
     public function client()
     {
         return $this->belongsTo(Client::class);

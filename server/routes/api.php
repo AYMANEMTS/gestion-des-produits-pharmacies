@@ -1,4 +1,6 @@
 <?php
+
+use App\Http\Controllers\Payment\StripeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +27,10 @@ require_once __DIR__ .'/produit.php';
 require_once __DIR__ .'/orders.php';
 require_once __DIR__ .'/admin.php';
 require_once __DIR__ .'/promotion.php';
+
+Route::middleware('auth:sanctum')->group(function (){
+    Route::post("/init/payment",[StripeController::class,"initPayment"]);
+    Route::post('/handle/payment/success',[StripeController::class,'handlePaymentSuccess']);
+});
 
 

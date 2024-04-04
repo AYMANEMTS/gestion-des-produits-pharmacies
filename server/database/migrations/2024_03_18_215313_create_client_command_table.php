@@ -18,9 +18,12 @@ return new class extends Migration
             $table->float('total',8,2)->nullable();
             $table->date('date_livred_prevenu');
             $table->date('date_livred')->nullable();
-            $table->json('userInformation');
-            $table->json('shippingAddress');
-            $table->json('paymentInfo');
+            $table->string('name');
+            $table->string('email');
+            $table->string('address');
+            $table->string('phone');
+            $table->enum('payment_type',['online','cod']);
+            $table->string('stripe_session_id')->unique()->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

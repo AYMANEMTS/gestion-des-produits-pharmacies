@@ -12,7 +12,7 @@ class ProduitController extends Controller
      */
     public function index()
     {
-        $product = Produit::with(['category','promotion','fourniseur'])->orderBy('created_at','desc')->paginate(9);
+        $product = Produit::with(['category','promotion','fourniseur'])->orderBy('created_at','desc')->get();
         return apiResponse(['status' => true,'data' => $product]);
     }
 

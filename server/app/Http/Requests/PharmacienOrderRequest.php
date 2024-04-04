@@ -24,20 +24,21 @@ class PharmacienOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pharmacien_id' => 'required',
-            'total' => 'required',
-            'date_livred_prevenu' => 'required',
-            'date_livred' => 'required',
+            'pharmacien_id' => 'nullable',
+            'total' => 'nullable',
+            'date_livred_prevenu' => 'nullable',
+            'date_livred' => 'nullable',
             'productsWithQty' => 'required',
-            'paymentInfo' => 'required',
-            'shippingAddress' => 'nullable',
-            'userInformation' => 'nullable'
+            'name' => 'required',
+            'email' => 'required',
+            'phone' =>'required',
+            'address' =>'required'
         ];
     }
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
+            'status'   => false,
             'message'   => 'Validation errors',
             'errors'      => $validator->errors()
         ]));

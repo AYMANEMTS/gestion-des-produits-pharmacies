@@ -14,7 +14,7 @@ class Pharmacien extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
     protected $table = 'pharmaciens';
     protected $fillable = [
-            'username','name','phone','address','pharmacy_id','CNN','email','password'
+            'username','name','phone','address','pharmacy_id','CNN','email','password','verified'
     ];
     protected $hidden = ['password'];
     public function pharmacy()

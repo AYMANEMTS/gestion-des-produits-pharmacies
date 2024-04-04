@@ -11,12 +11,11 @@ Route::middleware(['auth:sanctum','auth:client'])->group(function (){
 });
 
 Route::middleware(['auth:sanctum','auth:pharmacien'])->group(function (){
-
     Route::get('/pharmacien/order',[PharmacienOrderController::class,'showOrders']);
+    Route::post('/pharmacien/order',[PharmacienOrderController::class,'storeOrder']);
 
 });
 Route::middleware(['auth:sanctum','auth:admin'])->group(function(){
     Route::get('/client/orders',[ClientOrderController::class,'getOrders']);
     Route::get('/pharmacien/orders',[PharmacienOrderController::class,'getOrders']);
 });
-Route::post('/pharmacien/order',[PharmacienOrderController::class,'storeOrder']);

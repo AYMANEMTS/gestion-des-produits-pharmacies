@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('name')->nullable();
             $table->string('phone');
             $table->string('address')->nullable();
-            $table->foreignIdFor(\App\Models\Pharmacy::class);
+            $table->foreignIdFor(\App\Models\Pharmacy::class)->nullable();
+            $table->boolean('verified')->default(false);
             $table->string('CNN');
             $table->string('email')->unique();
             $table->string('password');

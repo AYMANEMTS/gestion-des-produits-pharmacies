@@ -17,35 +17,12 @@ class ClientOrderController extends Controller
         try {
             $validatedData = $clentOrderRequest->validated();
             $validatedData['status'] = 'pending';
-            $validatedData['userInformation'] = json_encode($validatedData['userInformation'] ?? []);
-            $validatedData['paymentInfo'] = json_encode($validatedData['paymentInfo'] ?? []);
-            $validatedData['shippingAddress'] = json_encode($validatedData['shippingAddress'] ?? []);
-            $validatedData["date_livred_prevenu"] = "2028-12-08"; //**********
+            $validatedData["date_livred_prevenu"] = "2028-12-08";
+            $validatedData['payment_type'] = 'cod';
+            $validatedData['client_id'] = auth()->user()->id;
             $clientCommnd = ClientCommand::create($validatedData);
             $productsWithQty = $validatedData['productsWithQty'] ?? [];
-            $totalCommand = 0;
-            foreach ($productsWithQty as $productId => $qty) {
-                $produit = Produit::find($productId);
-                if (!$produit) {
-                    throw new \Exception("Product with ID $productId not found");
-                }
-                $produitTotal = 0;
-                $produit->qty -= $qty;
-                $produit->save();
-                $promo = null;
-                if ($produit->promotion !== null){
-                    $promo = $produit->promotion->pourcentage;
-                    $discount = ($promo / 100) * $produit->prix_vendre;
-                    $produitTotal = $produit->prix_vendre - $discount;
-                    $produitTotal = $produitTotal * $qty;
-                }else{
-                    $produitTotal = $qty * $produit->prix_vendre;
-                }
-                $totalCommand += $produitTotal;
-                $clientCommnd->produits()->attach($productId, ['qty' => $qty, 'total' => $produitTotal,'promo'=>$promo.'%']);
-            }
-            $clientCommnd->total = $totalCommand;
-            $clientCommnd->save();
+            calculTotalCartItems($productsWithQty,$clientCommnd);
             DB::commit();
             return apiResponse(['status'=>true,'message'=>'command created successfully']);
         }catch (\Exception $e){

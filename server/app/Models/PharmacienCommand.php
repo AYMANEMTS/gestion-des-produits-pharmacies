@@ -12,8 +12,9 @@ class PharmacienCommand extends Model
     protected $table = 'pharmacien_command';
     protected $fillable = [
         'pharmacien_id','status','total','date_livred_prevenu','date_livred',
-        'userInformation','shippingAddress','paymentInfo'
+        'name','address','phone','email','payment_type','stripe_session_id'
     ];
+    protected $hidden = ['stripe_session_id'];
 
     public function pharmacien()
     {

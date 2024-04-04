@@ -24,20 +24,21 @@ class ClentOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'client_id' => 'required',
+            'client_id' => 'nullable',
             'total' => 'nullable',
             'date_livred_prevenu' => 'nullable',
             'date_livred' => 'nullable',
             'productsWithQty' => 'required',
-            'userInformation' => 'required',
-            'shippingAddress' => 'required',
-            'paymentInfo' =>'required'
+            'name' => 'required',
+            'email' => 'required',
+            'phone' =>'required',
+            'address' =>'required'
         ];
     }
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
+            'status'   => false,
             'message'   => 'Validation errors',
             'errors'      => $validator->errors()
         ]));

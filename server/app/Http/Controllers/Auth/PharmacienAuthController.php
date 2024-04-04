@@ -31,8 +31,11 @@ class PharmacienAuthController extends Controller
         $data = $loginRequest->validated();
         try {
             $pharmacien = Pharmacien::where('email', $data['email'])->first();
-            if (!$pharmacien || !Hash::check($data['password'],$pharmacien->password)){
+            if (!$pharmacien || !Hash::check($data['password'],$pharmacien->password )){
                 return apiResponse(['success' => false, 'message' => 'validation errors','errors'=>['email'=>['The provided credentials are incorrect']]]);
+            }
+            if ($pharmacien->verified !== 1){
+                return apiResponse(['success' => false, 'message' => 'validation errors','errors'=>['email'=>['This account is not verified']]]);
             }
             return apiResponse([
                 'status' => true,

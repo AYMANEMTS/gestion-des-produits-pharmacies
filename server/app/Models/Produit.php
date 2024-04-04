@@ -22,16 +22,22 @@ class Produit extends Model
     {
         return $this->belongsTo(Fourniseur::class);
     }
-    public function commandsClient()
-    {
-        return $this->belongsToMany(ClientCommand::class);
-    }
-    public function commandsPharmacien()
-    {
-        return $this->belongsToMany(PharmacienCommand::class);
-    }
     public function promotion()
     {
         return $this->belongsTo(Promotion::class);
     }
+    public function calculTotalAmount($qty)
+    {
+        if ($this->promotion !== null && $this->promotion->pourcentage !== null) {
+            $discountedPrice = $this->prix_vendre * (1 - ($this->promotion->pourcentage / 100));
+            return $discountedPrice * $qty;
+        } else {
+            return $this->prix_vendre * $qty;
+        }
+    }
+    public function finalPrice()
+    {
+        return $this->promotion ? $this->prix_vendre - ($this->prix_vendre * ($this->promotion->pourcentage / 100)) : $this->prix_vendre;
+    }
+
 }

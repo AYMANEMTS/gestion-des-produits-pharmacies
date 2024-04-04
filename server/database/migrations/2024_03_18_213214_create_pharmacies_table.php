@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('address');
             $table->string('contact');
-            $table->float('percentage',8,2)->default(0.0);
+            $table->float('percentage',8,2)->default(0.0)->nullable();
+            $table->boolean('verified')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });
