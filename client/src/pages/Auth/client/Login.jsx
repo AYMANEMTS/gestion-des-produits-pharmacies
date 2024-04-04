@@ -6,32 +6,27 @@ import {SetApiErrors} from "../../../helpers/SetApiErrors";
 import {useUserContext} from "../../../contexts/AuthContext";
 import toast from "react-hot-toast";
 import {useEffect, useState} from "react";
-import secureLocalStorage from "react-secure-storage";
 function Login() {
     const {register,handleSubmit,formState:{errors,isSubmitting,isValid},setError} = useForm()
-    const { setUser,token} = useUserContext()
+    const { setUser,token,userType,setToken,setUserType} = useUserContext()
     const [redirect, setRedirect] = useState(null)
     const location = useLocation();
     const redirectRoute = location.state?.redirectRoute
     const navigate = useNavigate()
-    const userType = secureLocalStorage.getItem('userType')
     useEffect(() => {
-        if (token){
-            if (userType === 'client'){
-                navigate("/client/profile")
-            }else navigate("/")
+        if (token && userType === 'client'){
+            navigate("/client/profile")
         }
         if (redirectRoute){
             setRedirect(redirectRoute)
         }
-    }, [token,redirectRoute,redirect,userType]);
-
+    }, [token, redirectRoute, redirect, userType, navigate]);
 
     const handlleLogin = async (data) => {
         await ClientApi.login(data).then((data) => {
             if (data.data.status){
-                secureLocalStorage.setItem('token',data.data.token)
-                secureLocalStorage.setItem('userType','client')
+                setToken(data.data.token)
+                setUserType('client')
                 setUser(data.data.clientData)
                 redirect ? navigate(redirect.toString()) : navigate("/client/profile")
                 toast.success('Welcome Back')

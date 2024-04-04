@@ -7,11 +7,10 @@ import {DefaultSpeedDial} from "../components/geustComponents/SpeedDial";
 import FavoriteDrawer from "../components/geustComponents/FavoriteDrawer";
 import {CustomSpinner} from "../components/CustomSpinner";
 import {useStoreContext} from "../contexts/StoreContext";
-import secureLocalStorage from "react-secure-storage";
+import {useUserContext} from "../contexts/AuthContext";
 
 function ClientLayout() {
-    const token = secureLocalStorage.getItem('token')
-    const userType = secureLocalStorage.getItem('userType')
+    const {token,userType} = useUserContext()
     const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const {isLoading } = useStoreContext()
@@ -21,7 +20,9 @@ function ClientLayout() {
     };
     const closeDrawer = () => setOpen(false);
     useEffect(() => {
-        if (!token || userType !== 'client'){
+        console.log(token,userType)
+        if (!token && userType !== 'client'){
+            console.log(token,userType)
             navigate("/login")
         }
         if (open) {
@@ -32,7 +33,7 @@ function ClientLayout() {
         return () => {
             document.body.classList.remove("overflow-hidden");
         };
-    }, [token,open]);
+    }, [token, open, userType, navigate]);
 
     return (
         <div className={"bg-gray-100"}>

@@ -3,35 +3,47 @@ import React from "react";
 import {ShowImageFromServer} from "../../../helpers/ShowImageFromServer";
 import {useFavoriteContext} from "../../../contexts/FavoriteContext";
 import {useShopingCart} from "../../../contexts/ShopingCartContext";
+import {useStoreContext} from "../../../contexts/StoreContext";
 
 function ProductCard({product}) {
     const {toogleFavorite,isFavorit} = useFavoriteContext()
     const {removeItemFromCart,increaseCartQty,decreaseCartQty,getItemQty} = useShopingCart()
+    const {calculDiscount} = useStoreContext()
     return (
         <>
-            <Card className="w-full max-w-[48rem] max-h-auto flex-row">
+            <Card className={`w-full max-h-[10rem] flex-row ${product?.promotion === null ? 'h-[9rem]' : 'max-h-auto'}`}>
                 <CardHeader
                     shadow={false}
                     floated={false}
                     className="m-0 w-2/5 shrink-0 rounded-r-none"
                 >
                     <img
-                        src={ShowImageFromServer(product?.image)}
+                        // src={ShowImageFromServer(product?.image)}
+                        src={product?.image}
                         alt="card-image"
                         className="h-full w-full object-cover"
                     />
                 </CardHeader>
                 <CardBody className="pt-1 pb-1 pr-0 mr-0">
-                    <Typography className="m-0 font-bold">{product?.name}</Typography>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
-                        <div className="text-left">
-                            <div>{(product?.prix_achat)?.toFixed(2)}DH</div>
-                        </div>
-                        <div className="text-right">
-                            <Chip value={"34%"} color={"orange"} className={"rounded-2xl w-11"} />
-                        </div>
-                    </div>
-                    <div className="line-through opacity-30 text-black">3456.65 DH</div>
+                    <Typography className="m-0 font-bold">{product?.name} | {product?.id}</Typography>
+                    {product?.promotion !== null ? (
+                        <>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8">
+                                <div className="text-left">
+                                    <div>{calculDiscount(product?.promotion?.pourcentage,product?.prix_vendre)}DH</div>
+                                </div>
+                                <div className="text-right">
+                                    <Chip value={"34%"} color={"orange"} className={"rounded-2xl w-11"}/>
+                                </div>
+                            </div>
+                            <div className="line-through opacity-30 text-black">{(product?.prix_vendre)?.toFixed(2)}DH</div>
+                        </>
+                    ) : (
+                        <>
+                            <div className=" text-black">{product?.prix_vendre} DH</div>
+                            <div className=" text-black">{'    '}</div>
+                        </>
+                    )}
                     <div className="text-blue-gray">En Stock {product?.qty}</div>
                     <div className="flex">
                         {getItemQty(product.id) > 0 ? (
@@ -59,8 +71,8 @@ function ProductCard({product}) {
                         ):(
                             <>
                                 <IconButton  onClick={() => increaseCartQty(product.id)}
-                                    size={"sm"} variant={"text"}
-                                    className={`bg-green-500 text-white hover:bg-green-800 mr-1`}>
+                                             size={"sm"} variant={"text"}
+                                             className={`bg-green-500 text-white hover:bg-green-800 mr-1`}>
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                          viewBox="0 0 576 512" fill={"white"} height={"20"}>
                                         <path
@@ -78,10 +90,10 @@ function ProductCard({product}) {
                                 </IconButton>
                             </>
                         )}
-
                     </div>
                 </CardBody>
             </Card>
+
         </>
     );
 }

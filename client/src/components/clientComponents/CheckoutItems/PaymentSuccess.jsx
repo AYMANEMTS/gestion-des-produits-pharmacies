@@ -4,10 +4,10 @@ import {
     DialogBody,
 
 } from "@material-tailwind/react";
-import {Link, useNavigate} from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import {useShopingCart} from "../../../contexts/ShopingCartContext";
 
-export default function PaymentSuccess({open,handleOpen}) {
+export default function PaymentSuccess({open,handleOpen,OrderDetailURL,GoBackURL,title,message}) {
     const {clearShoppingCart} = useShopingCart()
     const navigate = useNavigate()
     return (
@@ -25,15 +25,18 @@ export default function PaymentSuccess({open,handleOpen}) {
                                 </path>
                             </svg>
                             <div className="text-center">
-                                <h3 className="md:text-2xl text-base text-gray-900 font-semibold text-center">Payment
-                                    Done!</h3>
-                                <p className="text-gray-600 my-2">Thank you for completing your secure online
-                                    payment.</p>
+                                <h3 className="md:text-2xl text-base text-gray-900 font-semibold text-center">
+                                    {title}
+                                </h3>
+                                <p className="text-gray-600 my-2">
+                                    {message}
+                                </p>
                                 <p> Have a great day! </p>
                                 <div className="py-10 text-center">
                                     <a href={""} onClick={() => {
+                                        handleOpen()
                                         clearShoppingCart()
-                                        navigate("/client/orders")
+                                        navigate(OrderDetailURL)
                                     }}
                                        className="px-12 mr-1 rounded bg-green-500 hover:bg-green-800 text-white font-semibold py-3">
                                         Show Order
@@ -41,6 +44,7 @@ export default function PaymentSuccess({open,handleOpen}) {
                                     <a href="#" onClick={() => {
                                         handleOpen()
                                         clearShoppingCart()
+                                        navigate(GoBackURL)
                                     }}
                                        className="px-12 rounded bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3">
                                         GO BACK

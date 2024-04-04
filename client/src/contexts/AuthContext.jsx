@@ -1,31 +1,33 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import secureLocalStorage from "react-secure-storage";
 
-export const StateUserContext = createContext({
-    user:{},
-    setUser:() => {},
-    logout: () => {},
-    token: null,
-    setToken: () => {}
-
-})
+export const StateUserContext = createContext({})
 export default function UserContext({children}) {
     const storedUserData = secureLocalStorage.getItem('userData');
     const initialUser = storedUserData ? storedUserData : null
     const [user, setUser] = useState(initialUser)
+
     const storedToken = secureLocalStorage.getItem('token');
     const initialToken = storedToken ? storedToken : null
     const [token, setToken] = useState(initialToken)
-    useEffect((key, value) => {
-        if (user){
-            secureLocalStorage.setItem('userData',user)
-        }
-    }, [user]);
+
+    const storedUsertype = secureLocalStorage.getItem('userType');
+    const initialUsertype = storedUsertype ? storedUsertype : null
+    const [userType, setUserType] = useState(initialUsertype)
+
+    useEffect(() => {
+        if (user) secureLocalStorage.setItem('userData',user)
+        if (token) secureLocalStorage.setItem('token',token)
+        if (userType) secureLocalStorage.setItem('userType',userType)
+    }, [token, user, userType]);
 
     const logout = () => {
-        setToken(null)
+        setToken(null);
+        setUser(null);
+        setUserType(null);
         secureLocalStorage.removeItem('token')
         secureLocalStorage.removeItem('userData')
+        secureLocalStorage.removeItem('userType')
     }
     return (
         <>
@@ -34,7 +36,7 @@ export default function UserContext({children}) {
                 setUser,
                 token,
                 setToken,
-                logout
+                logout, setUserType , userType
             }}  >
                 {children}
             </StateUserContext.Provider>

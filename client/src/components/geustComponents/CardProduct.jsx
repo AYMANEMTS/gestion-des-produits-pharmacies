@@ -24,7 +24,8 @@ function CardProduct({product}) {
             <Card className="w-auto shadow-xl hover:border-2 hover:border-black">
                 <CardHeader shadow={false} floated={false} className="h-48">
                     <img
-                        src={ShowImageFromServer(product?.image)}
+                        src={product?.image}
+                        // src={ShowImageFromServer(product?.image)}
                         alt="card-image"
                         className="h-full w-full object-cover transition-transform duration-300 transform hover:scale-150"
                     />

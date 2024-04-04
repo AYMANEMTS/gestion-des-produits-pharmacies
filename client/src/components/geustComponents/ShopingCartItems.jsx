@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Chip, Typography} from "@material-tailwind/react";
+import { Chip} from "@material-tailwind/react";
 import {useStoreContext} from "../../contexts/StoreContext";
 import {useShopingCart} from "../../contexts/ShopingCartContext";
 
@@ -7,7 +7,7 @@ function ShopingCartItems({item}) {
     const {products} = useStoreContext()
     const {getItemQty , increaseCartQty , decreaseCartQty ,
         removeItemFromCart } = useShopingCart()
-    const product = products.filter((pd) => pd.id === item.id)
+    const product = products.filter((pd) => pd?.id === item?.id)
     const {calculDiscount} = useStoreContext()
     return (
         <div className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
@@ -31,22 +31,22 @@ function ShopingCartItems({item}) {
                 </div>
                 <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
                     <div className="flex items-center justify-end border-gray-100">
-                        <button onClick={() => decreaseCartQty(product[0].id)}
+                        <button onClick={() => decreaseCartQty(product[0]?.id)}
                             className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-green-500 hover:text-blue-50">
                             - </button>
                         <input className="h-8 w-8 border bg-white text-center text-xs outline-none" disabled={true}
                                type="number" value={getItemQty(product[0]?.id)} min="1"/>
-                        <button onClick={() => increaseCartQty(product[0].id)}
+                        <button onClick={() => increaseCartQty(product[0]?.id)}
                             className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-green-500 hover:text-blue-50">
                             + </button>
                     </div>
                     <div className="flex items-center space-x-4">
-                        {product[0].promotion === null ? (
-                            <p className="text-sm">{(getItemQty(product[0].id) * product[0]?.prix_vendre).toFixed(2)} DH</p>
+                        {product[0]?.promotion === null ? (
+                            <p className="text-sm">{(getItemQty(product[0]?.id) * product[0]?.prix_vendre).toFixed(2)} DH</p>
                         ): (
-                            <p className="text-sm">{(getItemQty(product[0].id) * calculDiscount(product[0]?.promotion?.pourcentage, product[0]?.prix_vendre)).toFixed(2)} DH</p>
+                            <p className="text-sm">{(getItemQty(product[0]?.id) * calculDiscount(product[0]?.promotion?.pourcentage, product[0]?.prix_vendre)).toFixed(2)} DH</p>
                         )}
-                        <svg onClick={() => removeItemFromCart(product[0].id)}
+                        <svg onClick={() => removeItemFromCart(product[0]?.id)}
                              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                              strokeWidth="1.5" stroke="currentColor"
                              className="h-5 w-5 cursor-pointer duration-150 hover:text-red-500">

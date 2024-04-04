@@ -2,34 +2,32 @@ import React, {useEffect} from 'react';
 import {useForm} from "react-hook-form";
 import {AdminApi} from "../../../api/AdminApi";
 import {SetApiErrors} from "../../../helpers/SetApiErrors";
-import secureLocalStorage from "react-secure-storage";
 import {useNavigate} from "react-router-dom";
 import toast from "react-hot-toast";
+import {useUserContext} from "../../../contexts/AuthContext";
 
 function AdminLogin() {
     const {register,handleSubmit,setError,formState:{errors,isSubmitting}} = useForm()
     const navigate = useNavigate()
-    const token = secureLocalStorage.getItem('token')
-    const userType = secureLocalStorage.getItem('userType')
+    const { token,userType,setToken,setUserType} = useUserContext()
+
     const loginCallback = async (data) => {
         await AdminApi.login(data).then(({data}) => {
             if (!data.success || data.errors){
                 SetApiErrors(data.errors,setError)
             }else {
-                secureLocalStorage.setItem('token',data.token)
-                secureLocalStorage.setItem('userType','admin')
+                setToken(data.token)
+                setUserType('admin')
                 navigate("/admin/home")
                 toast.success('Welcome Back ')
             }
         }).catch((e) => console.log(e))
     }
     useEffect(() => {
-        if (token ){
-            if (userType === 'admin'){
-                navigate("/admin/home")
-            }else navigate("/admin/home")
+        if (token && userType === 'admin' ){
+            navigate("/admin/home")
         }
-    }, [token,userType]);
+    }, [navigate, token, userType]);
     return (
         <>
             <div className="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">

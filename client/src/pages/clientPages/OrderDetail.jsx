@@ -27,11 +27,7 @@ function OrderDetail() {
         }catch (e){
             navigate("/client/orders")
         }
-    }, []);
-    const shippingAddress = orderData.shippingAddress && JSON.parse(orderData.shippingAddress)
-    const paymentInfo = orderData.shippingAddress && JSON.parse(orderData.paymentInfo)
-    const userInformation = orderData.paymentInfo && JSON.parse(orderData.userInformation)
-    const customerInfo = {shippingAddress,paymentInfo,userInformation}
+    }, [id, navigate]);
     return (
         <>
             <ClientNav/>
@@ -57,7 +53,7 @@ function OrderDetail() {
                         </div>
                         <OrderSumray orderData={orderData}/>
                     </div>
-                    <OrderCustomerInformation customerInfo={customerInfo}/>
+                    <OrderCustomerInformation orderData={orderData}/>
                 </div>
             </div>
         </>

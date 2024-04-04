@@ -2,7 +2,6 @@ import {Outlet, useNavigate} from "react-router-dom";
 import SideBar from "../components/admincomponents/SideBar";
 import secureLocalStorage from "react-secure-storage";
 import React, {useEffect, useState} from "react";
-import TopBar from "../components/admincomponents/TopBar";
 import {CustomSpinner} from "../components/CustomSpinner";
 import {useStoreContext} from "../contexts/StoreContext";
 import {useQuery} from "react-query";

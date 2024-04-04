@@ -60,7 +60,7 @@ const ShopingCartProvider = ({children}) => {
                 return total + (itemPrice * cartItem.qty);
             }
             return total;
-        }, 0);
+        }, 0).toFixed(2)
     };
 
 

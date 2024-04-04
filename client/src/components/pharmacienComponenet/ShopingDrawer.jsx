@@ -1,10 +1,12 @@
 import React from 'react';
-import { Drawer, IconButton, Typography} from "@material-tailwind/react";
+import {Button, Drawer, IconButton, Typography} from "@material-tailwind/react";
 import ShopingCartitems from "../pharmacienComponenet/ShopingCartitems";
 import {useShopingCart} from "../../contexts/ShopingCartContext";
+import {useNavigate} from "react-router-dom";
 
 function ShopingDrawer({closeDrawer,open}) {
     const {cartItems} = useShopingCart()
+    const navigate = useNavigate()
     return (
         <React.Fragment>
             <Drawer
@@ -30,10 +32,16 @@ function ShopingDrawer({closeDrawer,open}) {
                         </svg>
                     </IconButton>
                 </div>
-                {cartItems?.map((item,key) => (
-                    <ShopingCartitems key={key} item={item} closeDrawer={closeDrawer}/>
-                ))}
-
+                <ShopingCartitems closeDrawer={closeDrawer}/>
+                {cartItems.length > 0 && (
+                    <div className={"my-3 mx-5"}>
+                        <Button onClick={() => {
+                            closeDrawer()
+                            navigate("/pharmacien/checkout")
+                        }}
+                            color={"green"} className={"w-full"}>Go To Checkout</Button>
+                    </div>
+                )}
             </Drawer>
         </React.Fragment>
     );

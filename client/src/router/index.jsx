@@ -10,7 +10,6 @@ import Signup from "../pages/Auth/client/Signup";
 import Login from "../pages/Auth/client/Login";
 import Profile from "../pages/clientPages/Profile";
 import ShopingCart from "../pages/gesutPages/ShopingCart";
-import Checkout from "../pages/clientPages/Checkout";
 import Orders from "../pages/clientPages/Orders";
 import OrderDetail from "../pages/clientPages/OrderDetail";
 import Contact from "../pages/gesutPages/Contact";
@@ -24,6 +23,9 @@ import Pharmacy from "../pages/adminPages/manage/Pharmacy";
 import PharmaciensOrders from "../pages/adminPages/oreders/pharmaciens/PharmaciensOrders";
 import ClientsOrders from "../pages/adminPages/oreders/clients/ClientsOrders";
 import PStore from "../pages/pharmacienPages/PStore";
+import PCheckout from "../pages/pharmacienPages/PCheckout";
+import PharmacienLogin from "../pages/Auth/pharmacien/PharmacienLogin";
+import PharmacienRegister from "../pages/Auth/pharmacien/PharmacienRegister";
 export const router = createBrowserRouter([
     {
         element: <GeustLayout />,
@@ -105,10 +107,6 @@ export const router = createBrowserRouter([
                 path: "/client/profile"
             },
             {
-                element: <Checkout />,
-                path: "/client/checkout"
-            },
-            {
                 element: <Orders />,
                 path: "/client/orders"
             },
@@ -128,6 +126,10 @@ export const router = createBrowserRouter([
             {
                 element: <PStore />,
                 path: "/pharmacien/store"
+            },
+            {
+                element: <PCheckout />,
+                path: "/pharmacien/checkout"
             }
         ]
     },
@@ -135,5 +137,13 @@ export const router = createBrowserRouter([
     {
         element: <AdminLogin />,
         path: "/admin/login"
+    },
+    {
+        element: <PharmacienLogin />,
+        path: "/pharmacien/login"
+    },
+    {
+        element: <PharmacienRegister />,
+        path: "/pharmacien/register"
     }
 ])
