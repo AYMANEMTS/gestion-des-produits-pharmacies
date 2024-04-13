@@ -84,5 +84,18 @@ export const AdminApi = {
     },
     updateOrderDate: async (id,data) => {
         return await axiosClient.post(`/api/admin/update/order/${id}/date`,data).catch((e) => console.log(e))
+    },
+    storePromotion: async (data) => {
+        return await axiosClient.post('/api/promotions',data).catch((e) => console.log(e))
+    },
+    getPromotions: async () => {
+        return await axiosClient.get('/api/promotions').catch((e) => console.log(e))
+    },
+    verifiedpharmacien: async (id) => {
+        return await axiosClient.post(`/admin/pharmacien/verified/${id}`,{
+            headers: {
+                "Access-Control-Allow-Origin":"http://localhost:3000"
+            }
+        }).catch(e => console.log(e))
     }
 }

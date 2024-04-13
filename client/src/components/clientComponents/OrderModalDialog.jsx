@@ -10,6 +10,7 @@ function OrderModalDialog({open,handleOpen}) {
     const {register,formState:{errors},handleSubmit,setError} = useForm()
     const {cartItems} = useShopingCart()
     const [successOrder, setSuccessOrder] = useState(false)
+    const [orderCreatedId, setOrderCreatedId] = useState(null)
     const handleOrder = async (data) => {
         try {
             data.productsWithQty = cartItems
@@ -18,6 +19,7 @@ function OrderModalDialog({open,handleOpen}) {
                 SetApiErrors(res.data.errors,setError)
             }else{
                 handleOpen()
+                setOrderCreatedId(res.data.order.id)
                 setSuccessOrder(true)
             }
         }catch (e) {
@@ -62,7 +64,8 @@ function OrderModalDialog({open,handleOpen}) {
                     </Button>
                 </DialogFooter>
             </Dialog>
-            <PaymentSuccess open={successOrder} handleOpen={() => setSuccessOrder(false)} GoBackURL={"/store"} OrderDetailURL={""}
+            <PaymentSuccess open={successOrder} handleOpen={() => setSuccessOrder(false)} GoBackURL={"/store"}
+                            OrderDetailURL={`/client/order/${orderCreatedId}`}
                             title={"Order Done!"} message={"Thank you for completing your Order."}/>
         </>
     );

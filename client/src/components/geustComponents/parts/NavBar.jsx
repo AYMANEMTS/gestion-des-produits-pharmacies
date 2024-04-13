@@ -152,13 +152,13 @@ export function NavbarWithMegaMenu({openDrawer}) {
     }, []);
 
     return (
-        <>
-            <Navbar style={{backgroundColor: '#108D34', borderRadius: 0}} className=" px-14 py-2 ">
+        <div>
+            <Navbar style={{backgroundColor: '#108D34', borderRadius: 0}} className=" px-14 py-2 max-w-full">
                 <div className="flex items-center justify-between text-white">
                     <div className="hidden lg:block">
                         <NavList/>
                     </div>
-                    <div className="hidden lg:flex lg:justify-between">
+                    <div className="hidden lg:flex lg:justify-b etween">
                         <div className={"m-2"}>
                             <Link to={"/login"}>
                                 <IconButton size={"sm"} variant={"text"} className={"bg-white hover:bg-green-500"}>
@@ -215,6 +215,6 @@ export function NavbarWithMegaMenu({openDrawer}) {
                     </div>
                 </Collapse>
             </Navbar>
-        </>
+        </div>
     );
 }

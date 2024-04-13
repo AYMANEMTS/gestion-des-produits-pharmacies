@@ -20,9 +20,7 @@ function ClientLayout() {
     };
     const closeDrawer = () => setOpen(false);
     useEffect(() => {
-        console.log(token,userType)
         if (!token && userType !== 'client'){
-            console.log(token,userType)
             navigate("/login")
         }
         if (open) {

@@ -133,4 +133,17 @@ class UsersController extends Controller
             return apiResponse(['status' => false,'message'=>$e->getMessage()],500);
         }
     }
+
+    public function verifiedPharmacien(string $id): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $pharmacien = Pharmacien::findOrFail($id);
+            $pharmacien->verified = 1;
+            $pharmacien->pharmacy->verified = 1;
+            $pharmacien->save();
+            return apiResponse(['status'=>true,'message'=>'Pharmacien changed status successfully']);
+        }catch (\Exception $e){
+            return apiResponse(['status'=>false,'message'=>$e->getMessage()],500);
+        }
+    }
 }

@@ -35,9 +35,9 @@ function Users() {
                 setUsersData({
                     admins: data?.data?.admins,
                     clients: data?.data?.clients,
-                    pharmaciens: data?.data?.pharmaciens,
+                    pharmaciens: data?.data?.pharmaciens.filter((pharmacy) => pharmacy.verified === 1),
                 });
-                setFilteredData([...data?.data?.pharmaciens, ...data?.data?.clients, ...data?.data?.admins]);
+                setFilteredData([...data?.data?.pharmaciens.filter((pharmacy) => pharmacy.verified === 1), ...data?.data?.clients, ...data?.data?.admins]);
             }
         })
     });
@@ -102,6 +102,8 @@ function Users() {
                 return usersData.clients.length
             case "pharmacien":
                 return usersData.pharmaciens.length
+            default:
+                break
         }
     }
     return (

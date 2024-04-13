@@ -7,7 +7,7 @@ import {
     Collapse, Badge,
 } from "@material-tailwind/react";
 import logo from "../../assets/logo.png"
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import {useShopingCart} from "../../contexts/ShopingCartContext";
 import {useFavoriteContext} from "../../contexts/FavoriteContext";
 import {useUserContext} from "../../contexts/AuthContext";
@@ -16,6 +16,8 @@ export function PNavbar({content,openFavoriteDrawer,openShopingDrawer}) {
     const {cartItems} = useShopingCart()
     const {favoriteItems} = useFavoriteContext()
     const {logout} = useUserContext()
+    const {pathname} = useLocation()
+    console.log(pathname)
     React.useEffect(() => {
         window.addEventListener(
             "resize",
@@ -27,17 +29,24 @@ export function PNavbar({content,openFavoriteDrawer,openShopingDrawer}) {
             );
         };
     }, []);
-
+    const activeRoute = (route) => {
+        return route === pathname
+    }
     const navList = (
         <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
-            <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
-                <a href="#" className="flex items-center">
+            <Typography as="li" variant="small" color="blue-gray" className={`p-1 font-normal rounded hover:bg-green-500  hover:text-white ${activeRoute('/pharmacien/home') && 'bg-green-500 text-white'} `}>
+                <Link to={"/pharmacien/home"} className="flex items-center">
                     Home
-                </a>
+                </Link>
             </Typography>
-            <Typography as="li" variant="small" color="blue-gray" className="p-1 font-normal">
+            <Typography as="li" variant="small" color="blue-gray" className={`p-1 font-normal rounded hover:bg-green-500  hover:text-white ${activeRoute('/pharmacien/store') && 'bg-green-500 text-white'} `}>
                 <Link to={"/pharmacien/store"} className="flex items-center">
                     Store
+                </Link>
+            </Typography>
+            <Typography as="li" variant="small" color="blue-gray" className={`p-1 font-normal rounded hover:bg-green-500  hover:text-white ${activeRoute('/') && 'bg-green-500 text-white'} `}>
+                <Link to={""} className="flex items-center">
+                    Orders
                 </Link>
             </Typography>
 

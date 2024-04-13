@@ -24,7 +24,7 @@ class ClientOrderController extends Controller
             $productsWithQty = $validatedData['productsWithQty'] ?? [];
             calculTotalCartItems($productsWithQty,$clientCommnd);
             DB::commit();
-            return apiResponse(['status'=>true,'message'=>'command created successfully']);
+            return apiResponse(['status'=>true,'message'=>'command created successfully','order'=>$clientCommnd]);
         }catch (\Exception $e){
             DB::rollBack();
             return apiResponse(['status'=>false,'message'=>$e->getMessage()],500);

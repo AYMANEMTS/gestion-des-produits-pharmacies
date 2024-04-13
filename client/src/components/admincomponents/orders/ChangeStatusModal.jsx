@@ -44,7 +44,7 @@ function ChangeStatusModal({data,type}) {
                     Change Status
                 </Typography>
             </MenuItem>
-            <Dialog size={"xs"}
+            <Dialog
                 open={open}
                 handler={handleOpen}
                 animate={{

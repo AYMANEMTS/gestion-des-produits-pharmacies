@@ -10,6 +10,7 @@ import {Button, CardFooter, Typography} from "@material-tailwind/react";
 const ITEMS_PER_PAGE = 10;
 function GStore() {
     const {products} = useStoreContext()
+    console.log(products)
     const [productsFiltred, setProductsFiltred] = useState(products)
     const fliterProductsWithCategory = (category) => setProductsFiltred(category.produits)
     const filterWithMinPrice = (min) => {
@@ -55,7 +56,7 @@ function GStore() {
     };
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    const currentPageData = productsFiltred.slice(startIndex,endIndex)
+    const currentPageData = productsFiltred?.slice(startIndex,endIndex)
     const location = useLocation();
     const searchWithName = location.state?.searchWithName;
     const searchWithCate = location.state?.searchWithCate;

@@ -23,7 +23,7 @@ function PStore() {
     return (
         <div className={"bg-gray-200 "}>
             <FilterBar setSearchQuery={setSearchQuery}/>
-            <div className={"grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-5 gap-4 my-10 "}>
+            <div className={"grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4 my-10 "}>
                 {currentPageData?.map((product,key) => (
                     <div key={key}>
                         <ProductCard product={product}/>

@@ -26,6 +26,9 @@ import PStore from "../pages/pharmacienPages/PStore";
 import PCheckout from "../pages/pharmacienPages/PCheckout";
 import PharmacienLogin from "../pages/Auth/pharmacien/PharmacienLogin";
 import PharmacienRegister from "../pages/Auth/pharmacien/PharmacienRegister";
+import Promotion from "../pages/adminPages/manage/Promotion";
+import PromotionCreate from "../pages/adminPages/manage/PromotionCreate";
+import PharmacienRequests from "../pages/adminPages/requests/PharmacienRequests";
 export const router = createBrowserRouter([
     {
         element: <GeustLayout />,
@@ -96,6 +99,18 @@ export const router = createBrowserRouter([
             {
                 element: <ClientsOrders />,
                 path: "/admin/orders/clients"
+            },
+            {
+                element: <Promotion />,
+                path: "/admin/promotion"
+            },
+            {
+                element: <PromotionCreate />,
+                path: "/admin/promotion/create"
+            },
+            {
+                element: <PharmacienRequests />,
+                path: "/admin/requests/pharmacien"
             }
         ]
     },

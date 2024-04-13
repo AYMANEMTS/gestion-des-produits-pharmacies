@@ -23,6 +23,14 @@ class PromotionController extends Controller
         try {
             $validatedData = $promotionRequest->validated();
             $promo = Promotion::create($validatedData);
+            foreach ($validatedData['productsIds'] as $id){
+                $product = Produit::findOrFail($id);
+                if (!$product){
+                    throw new \Exception("Product with ID ${id} not found");
+                }
+                $product->promotion_id = $promo->id;
+                $product->save();
+            }
             return apiResponse(['status'=>true,'message'=>'promotion created success','data'=>$promo]);
         }catch (\Exception $e){
             return apiResponse(['status'=>false,'message'=>$e->getMessage()],500);

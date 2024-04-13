@@ -46,10 +46,21 @@ function SideBar({setter,show}) {
                 </div>
                 <div className="flex flex-col py-4">
                     <List className={"text-white"}>
+                        <Link to={"/admin/home"}>
+                            <ListItem >
+                                <ListItemPrefix>
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                                         viewBox="0 0 512 512" className={"h-5 w-5"}>
+                                        <path d="M0 96C0 60.7 28.7 32 64 32H448c35.3 0 64 28.7 64 64V416c0 35.3-28.7 64-64 64H64c-35.3 0-64-28.7-64-64V96zm64 64V416H224V160H64zm384 0H288V416H448V160z"/>
+                                    </svg>
+                                </ListItemPrefix>
+                                Dashboard
+                            </ListItem>
+                        </Link>
                         <Accordion open={open === 1}>
                             <ListItem className="p-0" selected={open === 1}>
                                 <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3 text-white">
-                                    <ListItemPrefix>
+                                <ListItemPrefix>
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                                              className="w-6 h-6">
                                             <path
@@ -103,6 +114,14 @@ function SideBar({setter,show}) {
                                             Pharmacy
                                         </ListItem>
                                     </Link>
+                                    <Link to={"/admin/promotion"}>
+                                        <ListItem>
+                                            <ListItemPrefix>
+                                                <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                            </ListItemPrefix>
+                                            Prmotion
+                                        </ListItem>
+                                    </Link>
                                 </List>
                             </AccordionBody>
                         </Accordion>
@@ -141,6 +160,34 @@ function SideBar({setter,show}) {
                                                 <ChevronRightIcon strokeWidth={3} className="h-3 w-5"/>
                                             </ListItemPrefix>
                                             Orders Pharmaciens
+                                        </ListItem>
+                                    </Link>
+                                </List>
+                            </AccordionBody>
+                        </Accordion>
+                        <Accordion open={open === 3}>
+                            <ListItem className="p-0" selected={open === 3}>
+                                <AccordionHeader onClick={() => handleOpen(3)} className="border-b-0 p-3 text-white">
+                                    <ListItemPrefix>
+                                        <svg xmlns="http://www.w3.org/2000/svg" className={"h-6 w-6"} fill={"currentColor"}
+                                             viewBox="0 0 512 512">
+                                            <path
+                                                d="M216 64c-13.3 0-24 10.7-24 24s10.7 24 24 24h16v33.3C119.6 157.2 32 252.4 32 368H480c0-115.6-87.6-210.8-200-222.7V112h16c13.3 0 24-10.7 24-24s-10.7-24-24-24H256 216zM24 400c-13.3 0-24 10.7-24 24s10.7 24 24 24H488c13.3 0 24-10.7 24-24s-10.7-24-24-24H24z"/>
+                                        </svg>
+                                    </ListItemPrefix>
+                                    <Typography color="white" className="mr-auto font-normal">
+                                        Requests
+                                    </Typography>
+                                </AccordionHeader>
+                            </ListItem>
+                            <AccordionBody className="py-1 text-white">
+                                <List className="p-0 text-white">
+                                <Link to={"/admin/requests/pharmacien"}>
+                                        <ListItem>
+                                            <ListItemPrefix>
+                                                <ChevronRightIcon strokeWidth={3} className="h-3 w-5"/>
+                                            </ListItemPrefix>
+                                            Pharmaciens
                                         </ListItem>
                                     </Link>
                                 </List>

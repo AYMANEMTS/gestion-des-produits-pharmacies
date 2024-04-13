@@ -29,7 +29,7 @@ const ITEMS_PER_PAGE = 10;
 function Products() {
     const TABLE_HEAD = ["Product", "Fourniseur", "Category","Promo" ,"Qty" ,"Prix Vendre",""];
     const {products} = useStoreContext()
-    const {categories,paginationData,setPaginationData} = useAdminContext()
+    const {categories} = useAdminContext()
     const [productFiltred, setProductFiltred] = useState(products)
     const [readOnly, setReadOnly] = useState(false)
     const orderProductBy = (filter) => {

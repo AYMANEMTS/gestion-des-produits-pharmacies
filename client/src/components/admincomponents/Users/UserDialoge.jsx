@@ -110,7 +110,7 @@ function UserDialoge({open,handleOpen,formContext,setFormContext}) {
         }
     }
     return (
-        <Dialog open={open} handler={handleOpen}>
+        <Dialog size={"xl"} open={open} handler={handleOpen}>
             <DialogHeader>
                 {formContext.formType === 'createAdmin' && 'Create Admin'}
                 {formContext.formType === 'createClient' && 'Create Client'}

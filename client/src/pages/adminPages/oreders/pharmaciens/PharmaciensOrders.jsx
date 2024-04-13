@@ -33,7 +33,7 @@ function PharmaciensOrders() {
     const [searchQuery, setSearchQuery] = useState('');
 
     const filteredData = currentPageData?.filter((item) =>
-        item.client.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.client?.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.status.toLowerCase().includes(searchQuery.toLowerCase())
     );
     return (

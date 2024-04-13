@@ -1,6 +1,6 @@
 import React from 'react';
 import {
- CardBody, IconButton,Tooltip,
+    CardBody, Chip, IconButton, Tooltip,
     Typography
 } from "@material-tailwind/react";
 import {PencilIcon} from "@heroicons/react/24/solid";
@@ -40,6 +40,9 @@ function PharmaciensTable({data,handleOpen,setFormContext,handleDeleteUser}) {
                                         className="font-normal leading-none opacity-70">
                                 CNN
                             </Typography>
+                        </th>
+                        <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
+
                         </th>
                         <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4">
 
@@ -107,21 +110,24 @@ function PharmaciensTable({data,handleOpen,setFormContext,handleDeleteUser}) {
                                         </Typography>
                                     </td>
                                     <td className={classes}>
+                                        <Chip value={"veified"} color={"green"} size={"sm"} />
+                                    </td>
+                                    <td className={classes}>
                                         <Tooltip content="Edit">
                                             <IconButton onClick={() => {
-                                                setFormContext({formType:"editPharmacien",formData:user})
+                                                setFormContext({formType: "editPharmacien", formData: user})
                                                 handleOpen()
                                             }}
-                                                color={"orange"} variant="text">
+                                                        color={"orange"} variant="text">
                                                 <PencilIcon className="h-4 w-4"/>
                                             </IconButton>
                                         </Tooltip>
                                         <Tooltip content="Detail">
                                             <IconButton onClick={() => {
-                                                setFormContext({formType:"readPharmacien",formData:user})
+                                                setFormContext({formType: "readPharmacien", formData: user})
                                                 handleOpen()
                                             }}
-                                                variant="text" color={"green"}>
+                                                        variant="text" color={"green"}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                      fill="currentColor" className="w-6 h-6">
                                                     <path
@@ -136,7 +142,7 @@ function PharmaciensTable({data,handleOpen,setFormContext,handleDeleteUser}) {
                                         </Tooltip>
                                         <Tooltip content="Delete">
                                             <IconButton variant="text" color={"red"}
-                                                        onClick={() => handleDeleteUser(user.id,user.user_type)}>
+                                                        onClick={() => handleDeleteUser(user.id, user.user_type)}>
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                                      fill="currentColor" className="w-6 h-6">
                                                     <path fillRule="evenodd"

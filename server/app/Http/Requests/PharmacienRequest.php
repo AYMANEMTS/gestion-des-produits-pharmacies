@@ -25,19 +25,17 @@ class PharmacienRequest extends FormRequest
     {
         return [
             'username' => 'required|max:100|min:8',
-            'name' => 'nullable|max:100|min:8',
             'pharmacy_id' => 'nullable',
             'phone' => 'required|numeric|min:11',
-            'address' => 'nullable|max:100',
             'CNN' => 'required',
-            'email' => 'required|email|unique:admins,email|max:100',
+            'email' => 'required|email|unique:pharmaciens,email|max:100',
             'password' => 'required|min:8',
         ];
     }
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'success'   => false,
+            'status'   => false,
             'message'   => 'Validation errors',
             'errors'      => $validator->errors()
         ]));

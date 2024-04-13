@@ -27,7 +27,8 @@ class PharmacyRequest extends FormRequest
             'name' => 'required',
             'address' => 'required',
             'contact' => 'required',
-            // 'percentage' => 'nullable'
+            // 'percentage' => 'nullable',
+            'verified' => 'nullable'
         ];
     }
     public function failedValidation(Validator $validator)

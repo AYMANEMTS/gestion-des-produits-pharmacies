@@ -13,7 +13,7 @@ function Orders() {
     const {setIsLoading} = useStoreContext()
     const {data:x} = useQuery('orders',ClientApi.getClientorders,{
         retry: 1,refetchOnMount:true,refetchInterval:false,
-        onSuccess: (({data}) => {
+        onSuccess: (({data}=[]) => {
             if (data?.status){
                 setOrderData(data?.data)
             }

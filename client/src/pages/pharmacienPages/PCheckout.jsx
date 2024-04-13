@@ -16,13 +16,13 @@ function PCheckout() {
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const session_id = urlParams.get("session_id")
+        if (cartItems.length < 1) navigate("/pharmacien/store")
         if (session_id && !successPayment){
             try {
                 async function handlePaymentSuccess(){
                     const res = await axiosClient.post("/api/handle/payment/success",{CHECKOUT_SESSION_ID:session_id,
                         type:"pharmacien",productsData:cartItems})
                     if (res.data.status){
-                        clearShoppingCart()
                         setSuccessPayment(true)
                     }else toast.error("Payment not completed")
                 }
@@ -31,7 +31,7 @@ function PCheckout() {
                 console.log(e)
             }
         }
-    }, [cartItems, clearShoppingCart, navigate, successPayment]);
+    }, [cartItems, navigate, successPayment]);
     return (
         <>
             <div className="grid  lg:grid-cols-2 ">

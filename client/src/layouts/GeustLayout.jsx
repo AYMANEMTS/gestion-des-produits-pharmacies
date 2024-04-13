@@ -43,7 +43,7 @@ function GeustLayout() {
         };
     }, [open]);
     return (
-        <div className={"bg-gray-100"}>
+        <div className={"bg-gray-100 w-full"}>
             <Header />
             <NavbarWithMegaMenu openDrawer={openDrawer}/>
             <div className={"container mx-auto mt-8"}>

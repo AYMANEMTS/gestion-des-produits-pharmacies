@@ -1,6 +1,5 @@
 import {Outlet, useNavigate} from "react-router-dom";
 import SideBar from "../components/admincomponents/SideBar";
-import secureLocalStorage from "react-secure-storage";
 import React, {useEffect, useState} from "react";
 import {CustomSpinner} from "../components/CustomSpinner";
 import {useStoreContext} from "../contexts/StoreContext";
@@ -9,20 +8,20 @@ import {ClientApi} from "../api/ClientApi";
 import {useAdminContext} from "../contexts/AdminContext";
 import {AdminApi} from "../api/AdminApi";
 import MenuBarMobile from "../components/admincomponents/MenuBarMobile";
+import {useUserContext} from "../contexts/AuthContext";
 
 
 
 function AdminLayout() {
-    const userType = secureLocalStorage.getItem('userType')
-    const token = secureLocalStorage.getItem('token')
+    const {token,userType} = useUserContext()
     const {paginationData,setCategories,setFourniseurs,setPharmacy} = useAdminContext()
     const navigate = useNavigate()
     const {setProducts,isLoading} = useStoreContext()
     useEffect(() => {
-        if (!token || userType !== 'admin'){
+        if (!token && userType !== 'admin'){
             navigate("/admin/login")
         }
-    }, [token,userType]);
+    }, [navigate, token, userType]);
     const page = paginationData?.page
     const {data:x,isLoading:loader1} = useQuery(['products',page],() => ClientApi.getProduts(page),{
         onSuccess: (({data}=[]) => {
