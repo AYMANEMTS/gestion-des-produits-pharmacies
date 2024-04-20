@@ -12,7 +12,7 @@ class Produit extends Model
     protected $table = 'produits';
     protected $fillable = [
         'name','image','description','prix_achat','prix_vendre','qty','fourniseur_id','category_id',
-        'date_fab','date_exp','promotion_id'
+        'date_fab','date_exp','promotion_id','prix_finale'
     ];
     public function category()
     {
@@ -37,7 +37,13 @@ class Produit extends Model
     }
     public function finalPrice()
     {
-        return $this->promotion ? $this->prix_vendre - ($this->prix_vendre * ($this->promotion->pourcentage / 100)) : $this->prix_vendre;
+        if ($this->promotion !== null && $this->promotion->pourcentage !== null) {
+            $discountedPrice = $this->prix_vendre * (1 - ($this->promotion->pourcentage / 100));
+            return $discountedPrice;
+        } else {
+            return $this->prix_vendre;
+        }
     }
+
 
 }

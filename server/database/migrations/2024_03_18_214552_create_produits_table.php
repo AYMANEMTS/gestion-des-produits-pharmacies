@@ -18,11 +18,12 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->float('prix_achat',8,2);
             $table->float('prix_vendre',8,2);
+            $table->float('prix_finale',8,2)->nullable();
             $table->bigInteger('qty');
             $table->foreignIdFor(\App\Models\Fourniseur::class);
-            $table->foreignIdFor(\App\Models\Category::class);
-            $table->date('date_fab');
-            $table->date('date_exp');
+            $table->foreignIdFor(\App\Models\Category::class)->nullable();
+            $table->date('date_fab')->nullable();
+            $table->date('date_exp')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

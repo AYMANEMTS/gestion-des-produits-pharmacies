@@ -27,6 +27,7 @@ require_once __DIR__ .'/produit.php';
 require_once __DIR__ .'/orders.php';
 require_once __DIR__ .'/admin.php';
 require_once __DIR__ .'/promotion.php';
+require_once __DIR__ .'/mobile.php';
 
 Route::middleware('auth:sanctum')->group(function (){
     Route::post("/init/payment",[StripeController::class,"initPayment"]);
